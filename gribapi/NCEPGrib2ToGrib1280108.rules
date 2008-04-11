@@ -1,0 +1,305 @@
+#
+# Date: 28.01.08
+# Author: guillaume.aubert@ctbto.org
+# Convert NCEP Grib2 in Grib1
+#
+
+# start by transforming the packingType
+if (packingType is "grid_jpeg") 
+{
+   packingType="grid_simple";
+   editionNumber=1;
+   timeRangeIndicator=10;
+   longitudeOfLastGridPointInDegrees=-1;
+   gridDefinition=3;
+}
+
+
+# ----------- 
+# LEVEL RULES 
+# ----------- 
+
+# Level at specified pressure difference from ground to level  (Pa)  (grib2/4.5.table)
+if (typeOfFirstFixedSurface == 108)
+{
+  indicatorOfTypeOfLevel = 116;
+  level = level / 100 ;
+  bottomLevel = 0;
+}
+
+# Mean Sea Level
+if (typeOfFirstFixedSurface == 101)
+{
+   indicatorOfTypeOfLevel = 102;
+   level = 0;
+}
+
+# Sigma level  (sigma value)  (grib2/4.5.table)  
+#   typeOfFirstFixedSurface = 104;
+if (typeOfFirstFixedSurface == 104 and (scaleFactorOfFirstFixedSurface == 2 or scaleFactorOfSecondFixedSurface == 2))
+{
+   indicatorOfTypeOfLevel = 108;
+   bottomLevel    = scaledValueOfSecondFixedSurface;
+   topLevel = scaledValueOfFirstFixedSurface;
+}
+
+if (typeOfFirstFixedSurface == 104 and (scaleFactorOfFirstFixedSurface == 4 or scaleFactorOfSecondFixedSurface == 4))
+{
+   indicatorOfTypeOfLevel = 107;
+   topLevel    = scaledValueOfSecondFixedSurface;
+   bottomLevel = scaledValueOfFirstFixedSurface;
+}
+
+# Depth below land surface  (m)  (grib2/4.5.table)          |  # sigma value (grib2/4.5.table)  
+#   typeOfFirstFixedSurface = 106;
+if (typeOfFirstFixedSurface == 106 and (scaleFactorOfFirstFixedSurface == 2 or scaleFactorOfSecondFixedSurface == 2))
+{
+   indicatorOfTypeOfLevel = 112;
+   topLevel    = scaledValueOfFirstFixedSurface;
+   bottomLevel = scaledValueOfSecondFixedSurface;
+}
+# Specified height level above ground  (m)  (grib2/4.5.table)  
+#   typeOfFirstFixedSurface = 103
+if (typeOfFirstFixedSurface == 103)
+{
+   indicatorOfTypeOfLevel = 105;
+}
+
+
+# Potential vorticity surface  (K m2 kg-1 s-1)  (grib2/4.5.table)  
+#   typeOfFirstFixedSurface = 109;
+#   BEWARE sometimes there are incorrect values in the level 
+#   [indicatorOfTypeOfLevel] long  values are different: [109] and [117]
+#   [level] long  values are different: [15207] and [34768] => This makes no sense scientifically according to Andreas
+if (typeOfFirstFixedSurface == 109)
+{
+# Potential vorticity surface 10-9 K m2 kg-1 s-1 (grib1/3.table) 
+  indicatorOfTypeOfLevel = 117;
+  level = level * 1000 ;
+}
+
+
+# mean sean level conversion
+if (typeOfFirstFixedSurface == 102)
+{
+  indicatorOfTypeOfLevel = 103;
+  level = level;
+}
+
+# ----------- 
+# PARAM RULES 
+# Do not use short_name which makes default assumptions
+# ----------- 
+
+# add shortname and param
+# Temperature
+if (discipline == 0 and parameterCategory == 0 and parameterNumber == 0)
+{
+   indicatorOfParameter = 11;
+   gribTablesVersionNo = 2;
+}
+
+#geopotential height
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 5)
+{
+   indicatorOfParameter = 7;
+   gribTablesVersionNo = 2;
+}
+
+# potential temperature
+if (discipline == 0 and parameterCategory == 0 and parameterNumber == 2)
+{
+   #indicatorOfParameter = 189;
+   indicatorOfParameter = 13;
+   gribTablesVersionNo = 2;
+}
+
+# vertical velocity
+if (discipline == 0 and parameterCategory == 2 and parameterNumber == 8)
+{
+   indicatorOfParameter = 39;
+   gribTablesVersionNo = 2;
+}
+
+# Relative Humidity
+if (discipline == 0 and parameterCategory == 1 and parameterNumber == 1)
+{
+   indicatorOfParameter = 52;
+   gribTablesVersionNo = 2;
+}
+
+# absolute Vorticity
+if (discipline == 0 and parameterCategory == 2 and parameterNumber == 10)
+{
+   indicatorOfParameter = 41;
+   gribTablesVersionNo = 2;
+}
+
+# cloud mixing ratio
+if (discipline == 0 and parameterCategory == 1 and parameterNumber == 22)
+{
+   indicatorOfParameter = 153;
+   gribTablesVersionNo = 2;
+}
+
+# u velocity wind component discipline == 0 and parameterCategory == 2 and parameterNumber == 2
+if (discipline == 0 and parameterCategory == 2 and parameterNumber == 2)
+{
+   indicatorOfParameter = 33;
+   gribTablesVersionNo = 2;
+}
+
+# v velocity wind component discipline == 0 and parameterCategory == 2 and parameterNumber == 3
+if (discipline == 0 and parameterCategory == 2 and parameterNumber == 3)
+{
+   indicatorOfParameter = 34;
+   gribTablesVersionNo = 2;
+}
+
+# Volumetric Soil Moisture Content discipline == 2 and parameterCategory == 0 and parameterNumber == 192 
+if (discipline == 2 and parameterCategory == 0 and parameterNumber == 192)
+{
+    indicatorOfParameter = 144;
+    gribTablesVersionNo = 2;
+}
+
+# Surface Lifted Index discipline = 0 and parameterCategory == 7 and parameterNumber == 192 
+if (discipline == 0 and parameterCategory == 7 and parameterNumber == 192)
+{  
+   indicatorOfParameter = 131;
+   gribTablesVersionNo = 2;
+}
+
+# Vertical speed sheer discipline = 0 and parameterCategory == 2 and parameterNumber == 192
+if (discipline == 0 and parameterCategory == 2 and parameterNumber == 192)
+{  
+   indicatorOfParameter = 136;
+   gribTablesVersionNo = 2;
+}
+
+# Mean Sea Level Pressure discipline = 0 and parameterCategory == 3 and parameterNumber == 1 
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 1)
+{  
+   indicatorOfParameter = 2;
+   gribTablesVersionNo = 2;
+}
+
+# 5-Wave Geopotential discipline = 0 and parameterCategory == 3 and parameterNumber == 193 
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 193)
+{  
+   indicatorOfParameter = 222;
+   gribTablesVersionNo = 2;
+}
+
+# Planetary boundary Layer Height discipline = 0 and parameterCategory == 3 and parameterNumber == 196
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 196)
+{  
+   indicatorOfParameter = 221;
+   gribTablesVersionNo = 2;
+}
+
+# 5-Wave Geopotential Height Anomaly discipline = 0 and parameterCategory == 3 and parameterNumber == 197
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 197)
+{  
+   indicatorOfParameter = 230;
+   gribTablesVersionNo = 2;
+}
+
+# Best (4 Layers) Lifted Index discipline = 0 and parameterCategory == 3 and parameterNumber == 196
+if (discipline == 0 and parameterCategory == 7 and parameterNumber == 193)
+{  
+   indicatorOfParameter = 132;
+   gribTablesVersionNo = 2;
+}
+
+# Convective Available Potential Energy discipline = 0 and parameterCategory == 7 and parameterNumber == 6 
+if (discipline == 0 and parameterCategory == 7 and parameterNumber == 6)
+{  
+   indicatorOfParameter = 157;
+   gribTablesVersionNo = 2;
+}
+
+# Convective Inhibition discipline = 0 and parameterCategory == 7 and parameterNumber == 7
+if (discipline == 0 and parameterCategory == 7 and parameterNumber == 7)
+{  
+   indicatorOfParameter = 156;
+   gribTablesVersionNo = 2;
+}
+
+# Land Cover (0=land, 1=sea) or Land Sea Mask discipline = 2 and parameterCategory == 0 and parameterNumber == 0 , Not Converted
+if (discipline == 2 and parameterCategory == 0 and parameterNumber == 0)
+{  
+   indicatorOfParameter = 81;
+   gribTablesVersionNo = 2;
+}
+
+# Ice cover  (Proportion) Ocean discipline = 10 and parameterCategory == 2 and parameterNumber == 0 => not converted
+if (discipline == 10 and parameterCategory == 2 and parameterNumber == 0)
+{  
+   indicatorOfParameter = 91;
+   gribTablesVersionNo = 2;
+}
+
+# Total Cloud Cover discipline = 0 and parameterCategory == 6 and parameterNumber == 1
+if (discipline == 0 and parameterCategory == 6 and parameterNumber == 1)
+{  
+   indicatorOfParameter = 71;
+   gribTablesVersionNo = 2;
+}
+
+# Cloud water discipline = 0 and parameterCategory == 6 and parameterNumber == 6
+if (discipline == 0 and parameterCategory == 6 and parameterNumber == 6)
+{  
+   indicatorOfParameter = 76;
+   gribTablesVersionNo = 2;
+}
+
+# Geopotential Height Anomaly discipline = 0 and parameterCategory == 3 and parameterNumber == 9 => not converted
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 9)
+{  
+   indicatorOfParameter = 27;
+   gribTablesVersionNo = 2;
+}
+
+#Surface Pressure discipline = 0 and parameterCategory == 3 and parameterNumber == 0 => Not Converted
+if (discipline == 0 and parameterCategory == 3 and parameterNumber == 0)
+{  
+   indicatorOfParameter = 1;
+   gribTablesVersionNo = 2;
+}
+
+# Ozone Mixing Ratio discipline = 0 and parameterCategory == 14 and parameterNumber == 192 
+if (discipline == 0 and parameterCategory == 14 and parameterNumber == 192)
+{  
+   indicatorOfParameter = 154;
+   gribTablesVersionNo = 2;
+}
+
+
+# Water equivalent of accumulated snow depth  (kg m-2) discipline == 0 and parameterCategory == 2 and parameterNumber == 3
+if (discipline == 0 and parameterCategory == 1 and parameterNumber == 13)
+{
+   indicatorOfParameter = 65;
+   gribTablesVersionNo = 2;
+}
+
+# specific humidiy discipline = 0 and parameterCategory == 1 and parameterNumber == 0 => Not found a conversion
+if (discipline == 0 and parameterCategory == 1 and parameterNumber == 0)
+{  
+   indicatorOfParameter = 51;
+   gribTablesVersionNo = 2;
+}
+
+# Precipitable water  (kg m-2) discipline = 0 and parameterCategory == 1 and parameterNumber == 3 => Not found a conversion
+if (discipline == 0 and parameterCategory == 1 and parameterNumber == 3)
+{  
+   indicatorOfParameter = 54;
+   gribTablesVersionNo = 2;
+}
+
+# Total ozone  (Dobson) discipline = 0 and parameterCategory == 14 and parameterNumber == 0 => Not found a conversion
+if (discipline == 0 and parameterCategory == 14 and parameterNumber == 0)
+{  
+   indicatorOfParameter = 10;
+   gribTablesVersionNo = 2;
+}
