@@ -1,0 +1,54 @@
+INSTALL the AutoSaint Comparator
+--------------------------------
+
+You need to add the necessary perl modules in the env variable PERL5LIB
+
+under bash :
+export PERL5LIB=AUTOSAINTCOMPARATOR_HOME_DIR/libs/local:AUTOSAINTCOMPARATOR_HOME_DIR/libs/ext:$PERL5LIB
+
+under tcsh (or csh)
+setenv PERL5LIB AUTOSAINTCOMPARATOR_HOME_DIR/libs/local:AUTOSAINTCOMPARATOR_HOME_DIR/libs/ext:$PERL5LIB
+
+where the AUTOSAINTCOMPARATOR_HOME_DIR is the home dir of the Autosaint comparator distribution
+
+INSTALL on Solaris machine (tested on eldey)
+--------------------------------------------
+
+a) You need to point to the right perl version : change the first line of compare_samples.pl #!/usr/bin/perl with 
+#!/opt/OSS/bin/perl -w in order to have DBI.pm
+
+b) Add the locals modules in PERL5LIBS 
+setenv /home/smd/aubert/autosaint-comparator/libs/local:/home/smd/aubert/autosaint-comparator/libs/ext:$PERL5LIB
+
+c) test, you should be able to see the help menu
+
+eldey-3% ./compare_samples.pl                                                                                                Error: need a directory containing the reference data
+Usage:
+      compare_samples.pl [options] sample_ids
+
+      Mandatory Options:
+      --reference_dir (-rdir)  Directory containing the reference data
+      --samples_dir   (-sdir)  Directory where the sample data is going to be stored 
+
+      Extra Options:
+      --database     (-db)      Database name to access                      (default= idcdev.ctbto.org)
+      --user         (-u)       Database user                                (default= centre)
+      --password     (-p)       Database password                            (default= password of the centre user)
+      --action       (-act)     Command line action [compare|generate_ref]   (default= compare) 
+      --peaks_coeff  (-pcoeff)  Peaks coefficient used in the peaks matching formula (default= 10) 
+      --anomaly_perc (-aperc)   All computed deviations will be flagged as anomalies 
+                                if superior or equal to this value
+      --nocache                 To not use the cached information and regenerate a new dataset 
+
+      Help Options:
+       --help     Show this scripts help information.
+       --manual   Read this scripts manual.
+       --version  Show the version number and exit.
+
+      Examples:
+      ./compare_samples.pl -rdir ./etc/data/ref-data -sdir ~/sample-dir 123456 345677 889909
+
+      or using xargs in order to read a file containing the list of sample ids:
+      cat ./etc/sample_ids_example | xargs ./compare_samples.pl -rdir ./etc/data/ref-data -sdir ~/sample-dir -nocache
+
+

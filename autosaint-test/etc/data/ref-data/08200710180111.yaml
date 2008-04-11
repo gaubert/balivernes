@@ -1,0 +1,110 @@
+---
+categories_sample_cat:
+  -
+    - name
+    - category
+categories_sample_status:
+  AUTO_CATEGORY: 1
+  CATEGORY: ~
+efficiency_cal:
+  COEFF1: 941.265014648438
+  COEFF2: -3.20591115951538
+  COEFF3: .855313062667847
+  COEFF4: -.205029085278511
+  COEFF5: .156954541802406
+  COEFF6: -.056380819529295
+  COEFF7: .00442987447604537
+  COEFF8: 0
+energy_cal:
+  COEFF1: .0802696421742439
+  COEFF2: .340966731309891
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+local_sample_id: 707096
+nucl_ided_data:
+  -
+    - name
+    - ave_activ
+    - ave_activ_err
+    - activ_key
+    - activ_key_err
+    - mda
+    - mda_err
+    - activ_decay
+    - activ_decay_err
+nucl_line_ided_data:
+  -
+    - name
+    - energy
+    - energy_err
+    - activity
+    - activ_err
+peaks_data:
+  -
+    - centroid
+    - centroid_err
+    - energy
+    - energy_err
+    - back_count
+    - back_uncer
+    - fwhm
+    - fwhm_err
+    - area
+    - area_err
+    - counts_sec
+    - counts_sec_err
+    - efficiency
+    - eff_error
+    - back_channel
+    - lc
+  -
+    - 3197.51831054688
+    - .612982273101807
+    - 1090.32763671875
+    - .289276212453842
+    - 39356.20703125
+    - 198.383987426758
+    - 1.75741314888
+    - .500563383102417
+    - 825.6083984375
+    - 195.499389648438
+    - .0104148807004094
+    - 23.6794338226318
+    - .035557433962822
+    - 0
+    - 3
+    - 442.228179931641
+  -
+    - 6000.06201171875
+    - .448730289936066
+    - 2045.90185546875
+    - .23327174782753
+    - 205.636581420898
+    - 14.3400344848633
+    - 1.25425946712494
+    - .349372535943985
+    - 47.4961471557617
+    - 15.3033466339111
+    - .000599154154770076
+    - 32.2201843261719
+    - .0167608112096786
+    - 0
+    - 3
+    - 30.4659271240234
+peaks_identified_and_found:
+  COUNT(DISTINCTGL.PEAK)-MAX(PEAK_ID): ~
+  MAX(PEAK_ID): ~
+resolution_cal:
+  COEFF1: .744649350643158
+  COEFF2: .0369537621736526
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+sample_ref_id: 08200710180111

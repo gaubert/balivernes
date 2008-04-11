@@ -1,0 +1,315 @@
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Mon Mar 10 10:37:49 2008
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL> 
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL> 
+Table altered.
+
+SQL> 
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11  
+Table created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11  
+Table created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11  
+Table created.
+
+SQL> SQL> SQL>   2    3    4    5    6  
+Table created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7  
+Table created.
+
+SQL> SQL>   2    3    4    5    6  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7  
+Table created.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14  
+Table created.
+
+SQL> 
+Table altered.
+
+SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10  
+Table created.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL> SQL>   1    CREATE INDEX SOH_CHAR_DATA_NDX1 ON GARDS_SOH_CHAR_DATA (DTG_END)
+  2*
+SQL> SQL>   2    3    4    5    6    7    8    9   10  
+Table created.
+
+SQL> SQL> SQL> SQL>   2  
+Table altered.
+
+SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9  
+Table created.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2  
+Index created.
+
+SQL> SQL>   2  
+Index created.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18  
+Table created.
+
+SQL> SQL>   2    3    4    5    6    7    8    9   10  
+Table created.
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> Disconnected from Oracle Database 10g Express Edition Release 10.2.0.1.0 - Production

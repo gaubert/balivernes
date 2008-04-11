@@ -1,0 +1,76 @@
+---
+categories_sample_cat:
+  -
+    - name
+    - category
+categories_sample_status:
+  AUTO_CATEGORY: ~
+  CATEGORY: ~
+efficiency_cal:
+  COEFF1: 941.265014648438
+  COEFF2: -3.08413767814636
+  COEFF3: 1.00896787643433
+  COEFF4: -.120884612202644
+  COEFF5: -.0709233433008194
+  COEFF6: .061716191470623
+  COEFF7: -.0139083936810493
+  COEFF8: 0
+energy_cal:
+  COEFF1: .154463425278664
+  COEFF2: .341677755117416
+  COEFF3: .0000000216727968904706
+  COEFF4: -.0000000000011651702823065
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+local_sample_id: 736276
+nucl_ided_data:
+  -
+    - name
+    - ave_activ
+    - ave_activ_err
+    - activ_key
+    - activ_key_err
+    - mda
+    - mda_err
+    - activ_decay
+    - activ_decay_err
+nucl_line_ided_data:
+  -
+    - name
+    - energy
+    - energy_err
+    - activity
+    - activ_err
+peaks_data:
+  -
+    - centroid
+    - centroid_err
+    - energy
+    - energy_err
+    - back_count
+    - back_uncer
+    - fwhm
+    - fwhm_err
+    - area
+    - area_err
+    - counts_sec
+    - counts_sec_err
+    - efficiency
+    - eff_error
+    - back_channel
+    - lc
+peaks_identified_and_found:
+  COUNT(DISTINCTGL.PEAK)-MAX(PEAK_ID): ~
+  MAX(PEAK_ID): ~
+resolution_cal:
+  COEFF1: 1.12680876255035
+  COEFF2: .0286736357957125
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+sample_ref_id: 08200712050211

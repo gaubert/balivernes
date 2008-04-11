@@ -1,0 +1,126 @@
+---
+categories_sample_cat:
+  -
+    - name
+    - category
+categories_sample_status:
+  AUTO_CATEGORY: 1
+  CATEGORY: ~
+efficiency_cal:
+  COEFF1: 947.800659179688
+  COEFF2: -3.47374844551086
+  COEFF3: .796849370002747
+  COEFF4: -.0114454263821244
+  COEFF5: -.0100797349587083
+  COEFF6: .0853343158960342
+  COEFF7: -.0563182234764099
+  COEFF8: 0
+energy_cal:
+  COEFF1: -.227164208889008
+  COEFF2: .329457372426987
+  COEFF3: -.000000125869462408446
+  COEFF4: .00000000000703375205302059
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+local_sample_id: 712790
+nucl_ided_data:
+  -
+    - name
+    - ave_activ
+    - ave_activ_err
+    - activ_key
+    - activ_key_err
+    - mda
+    - mda_err
+    - activ_decay
+    - activ_decay_err
+  -
+    - BE-7
+    - 1749.1212
+    - 41.8225
+    - 1749.1212
+    - 41.8225
+    - 2043.69795056815
+    - 0
+    - 1.03302653662149
+    - 0
+nucl_line_ided_data:
+  -
+    - name
+    - energy
+    - energy_err
+    - activity
+    - activ_err
+  -
+    - BE-7
+    - 477.612
+    - .002
+    - 1749.1212
+    - 41.8225
+peaks_data:
+  -
+    - centroid
+    - centroid_err
+    - energy
+    - energy_err
+    - back_count
+    - back_uncer
+    - fwhm
+    - fwhm_err
+    - area
+    - area_err
+    - counts_sec
+    - counts_sec_err
+    - efficiency
+    - eff_error
+    - back_channel
+    - lc
+  -
+    - 724.882629394531
+    - .264664173126221
+    - 238.527297973633
+    - -.139968648552895
+    - 7.99999904632568
+    - 2.82842683792114
+    - 1.203981757164
+    - .168157890439034
+    - 54.9619903564453
+    - 7.99589586257935
+    - .298706471920013
+    - 14.5480461120605
+    - .0911760255694389
+    - .00186441617552191
+    - 3
+    - 5.63678073883057
+  -
+    - 1773.08020019531
+    - .219675973057747
+    - 583.570678710938
+    - -.154790341854095
+    - 1.66666674613953
+    - 1.29099452495575
+    - 1.34624814987183
+    - .1491709202528
+    - 24.3895587921143
+    - 5.18853902816772
+    - .132551953196526
+    - 21.2736072540283
+    - .0455964505672455
+    - .00101589492987841
+    - 3
+    - 2.8415641784668
+peaks_identified_and_found:
+  COUNT(DISTINCTGL.PEAK)-MAX(PEAK_ID): -2
+  MAX(PEAK_ID): 3
+resolution_cal:
+  COEFF1: .163045004010201
+  COEFF2: .0596853867173195
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+sample_ref_id: 63200710270811

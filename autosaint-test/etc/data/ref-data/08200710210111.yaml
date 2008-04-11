@@ -1,0 +1,127 @@
+---
+categories_sample_cat:
+  -
+    - name
+    - category
+categories_sample_status:
+  AUTO_CATEGORY: 1
+  CATEGORY: ~
+efficiency_cal:
+  COEFF1: 941.265014648438
+  COEFF2: -3.20591115951538
+  COEFF3: .855313062667847
+  COEFF4: -.205029085278511
+  COEFF5: .156954541802406
+  COEFF6: -.056380819529295
+  COEFF7: .00442987447604537
+  COEFF8: 0
+energy_cal:
+  COEFF1: .0802696421742439
+  COEFF2: .340966731309891
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+local_sample_id: 708949
+nucl_ided_data:
+  -
+    - name
+    - ave_activ
+    - ave_activ_err
+    - activ_key
+    - activ_key_err
+    - mda
+    - mda_err
+    - activ_decay
+    - activ_decay_err
+nucl_line_ided_data:
+  -
+    - name
+    - energy
+    - energy_err
+    - activity
+    - activ_err
+peaks_data:
+  -
+    - centroid
+    - centroid_err
+    - energy
+    - energy_err
+    - back_count
+    - back_uncer
+    - fwhm
+    - fwhm_err
+    - area
+    - area_err
+    - counts_sec
+    - counts_sec_err
+    - efficiency
+    - eff_error
+    - back_channel
+    - lc
+  -
+    - 920.75146484375
+    - .240976706147194
+    - 314.02587890625
+    - .162434682250023
+    - 28079.498046875
+    - 167.569381713867
+    - .52022111415863
+    - .193015903234482
+    - 486.164215087891
+    - 144.929077148438
+    - .00608412548899651
+    - 29.8107242584229
+    - .0924351438879967
+    - 0
+    - 3
+    - 310.441589355469
+  -
+    - 3474.50048828125
+    - .740163683891296
+    - 1184.76928710938
+    - .332640826702118
+    - 1076.26318359375
+    - 32.8064498901367
+    - 1.21091175079346
+    - .578017950057983
+    - 85.7675323486328
+    - 34.2237586975098
+    - .00107334193307906
+    - 39.9029312133789
+    - .032855823636055
+    - 0
+    - 3
+    - 71.8261108398438
+  -
+    - 4180.54443359375
+    - .0450724847614765
+    - 1425.5068359375
+    - .0956378579139709
+    - 183.660751342773
+    - 13.552149772644
+    - .463100880384445
+    - .0378511361777782
+    - 32.8160591125488
+    - 6.53062772750854
+    - .000410678156185895
+    - 19.900707244873
+    - .0270738396793604
+    - 0
+    - 3
+    - 25.9494304656982
+peaks_identified_and_found:
+  COUNT(DISTINCTGL.PEAK)-MAX(PEAK_ID): ~
+  MAX(PEAK_ID): ~
+resolution_cal:
+  COEFF1: .5
+  COEFF2: .0350000001490116
+  COEFF3: 0
+  COEFF4: 0
+  COEFF5: 0
+  COEFF6: 0
+  COEFF7: 0
+  COEFF8: 0
+sample_ref_id: 08200710210111

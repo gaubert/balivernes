@@ -1,0 +1,16 @@
+#!/bin/bash
+
+MACHINE=dls008
+ORIGIN_DIR=/home/aubert/dev/src-reps/balivernes/autosaint-test
+INSTALL_DIR=/home/smd/aubert/autosaint-comparator
+
+#scp -r -p $ORIGIN_DIR/compare_samples.pl $MACHINE:$INSTALL_DIR
+#scp -r -p $ORIGIN_DIR/Common $MACHINE:$INSTALL_DIR/libs/local
+#too long to be copied each time
+#scp -r -p $ORIGIN_DIR/etc/data/ref-data $MACHINE:$INSTALL_DIR/etc/data
+scp -r -p $ORIGIN_DIR/etc/INSTALL $MACHINE:$INSTALL_DIR/etc/
+scp -r -p $ORIGIN_DIR/etc/INSTALL $MACHINE:$INSTALL_DIR
+#scp -r -p $ORIGIN_DIR/etc/sample_ids_example $MACHINE:$INSTALL_DIR/etc/
+
+# copy external libs
+#scp -r -p  /home/aubert/perl/share/perl/5.8.8/YAML /home/aubert/perl/share/perl/5.8.8/YAML.pm $MACHINE:$INSTALL_DIR/libs/ext
