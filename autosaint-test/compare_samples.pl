@@ -188,7 +188,7 @@ compare_samples.pl - compare a list of sample_ids data against reference data
    --version  Show the version number and exit.
 
   Examples:
-  ./compare_samples.pl -sdir ~/sample-dir 123456 345677 889909
+  ./compare_samples.pl -rdir ./etc/data/ref-data -sdir ~/sample-dir 152511
 
   or using xargs in order to read a file containing the list of sample ids:
   cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir -nocache
