@@ -473,12 +473,12 @@ sub _peaks_comparison
 
           $matching_data{'matching_energy'}     = Util::round($val_B[2],4);
           $matching_data{'matched_energy'}      = Util::round($info_A[2],4);
-          $matching_data{'centroid_dev'}        = (defined $info_A[0] && $info_A[0] != 0) ? Util::round((($val_B[0] - $info_A[0]) / $info_A[0])*100) : undef;
-          $matching_data{'centroid_err_dev'}    = (defined $info_A[1] && $info_A[1] != 0) ? Util::round((($val_B[1] - $info_A[1]) / $info_A[1])*100) : undef;
-          $matching_data{'energy_dev'}          = (defined $info_A[2] && $info_A[2] != 0) ? Util::round((($val_B[2] - $info_A[2]) / $info_A[2])*100) : undef;
-          $matching_data{'energy_err_dev'}      = (defined $info_A[3] && $info_A[3] != 0) ? Util::round((($val_B[3] - $info_A[3]) / $info_A[3])*100) : undef;
-          $matching_data{'area_dev'}            = (defined $info_A[8] && $info_A[8] != 0) ? Util::round((($val_B[8] - $info_A[8]) / $info_A[8])*100) : undef;
-          $matching_data{'area_err_dev'}        = (defined $info_A[9] && $info_A[9] != 0) ? Util::round((($val_B[9] - $info_A[9]) / $info_A[9])*100) : undef ;
+          $matching_data{'centroid_dev'}        = (defined $info_A[0] && $info_A[0] != 0) ? Util::round((($val_B[0] - $info_A[0]) / $info_A[0])*100) : '-';
+          $matching_data{'centroid_err_dev'}    = (defined $info_A[1] && $info_A[1] != 0) ? Util::round((($val_B[1] - $info_A[1]) / $info_A[1])*100) : '-';
+          $matching_data{'energy_dev'}          = (defined $info_A[2] && $info_A[2] != 0) ? Util::round((($val_B[2] - $info_A[2]) / $info_A[2])*100) : '-';
+          $matching_data{'energy_err_dev'}      = (defined $info_A[3] && $info_A[3] != 0) ? Util::round((($val_B[3] - $info_A[3]) / $info_A[3])*100) : '-';
+          $matching_data{'area_dev'}            = (defined $info_A[8] && $info_A[8] != 0) ? Util::round((($val_B[8] - $info_A[8]) / $info_A[8])*100) : '-';
+          $matching_data{'area_err_dev'}        = (defined $info_A[9] && $info_A[9] != 0) ? Util::round((($val_B[9] - $info_A[9]) / $info_A[9])*100) : '-' ;
 
           # if $matching_peaks{$info_A[2]} doesn't exist then create hash and add matched value in it.
           if (! exists $matching_peaks{Util::round($info_A[2],4)})

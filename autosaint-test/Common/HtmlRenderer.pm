@@ -390,6 +390,8 @@ sub _get_TD
 
   $check_flag = 0 unless (defined $check_flag);
 
+  $value = '-' unless (defined $value);
+
   my $TD = '<td style='.$TABLETDSTYLE.'>'.$value.'</td>';   
 
   if ($check_flag) 

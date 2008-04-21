@@ -191,7 +191,7 @@ compare_samples.pl - compare a list of sample_ids data against reference data
   ./compare_samples.pl -rdir ./etc/data/ref-data -sdir ~/sample-dir 152511
 
   or using xargs in order to read a file containing the list of sample ids:
-  cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir -nocache
+  cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir --nocache
 
 =cut
 
@@ -202,7 +202,7 @@ compare_samples.pl - compare a list of sample_ids data against reference data
   ./compare_samples.pl -rdir -sdir ./sample-dir 
 
   or using xargs in order to read a file containing the list of sample ids:
-  cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir -nocache
+  cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir --nocache
   
 
 =cut

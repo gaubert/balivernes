@@ -4,8 +4,8 @@ MACHINE=dls008
 ORIGIN_DIR=/home/aubert/dev/src-reps/balivernes/autosaint-test
 INSTALL_DIR=/home/smd/aubert/autosaint-comparator
 
-#scp -r -p $ORIGIN_DIR/compare_samples.pl $MACHINE:$INSTALL_DIR
-#scp -r -p $ORIGIN_DIR/Common $MACHINE:$INSTALL_DIR/libs/local
+scp -r -p $ORIGIN_DIR/compare_samples.pl $MACHINE:$INSTALL_DIR
+scp -r -p $ORIGIN_DIR/Common $MACHINE:$INSTALL_DIR/libs/local
 #too long to be copied each time
 #scp -r -p $ORIGIN_DIR/etc/data/ref-data $MACHINE:$INSTALL_DIR/etc/data
 scp -r -p $ORIGIN_DIR/etc/INSTALL $MACHINE:$INSTALL_DIR/etc/
