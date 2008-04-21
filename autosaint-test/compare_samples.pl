@@ -171,15 +171,16 @@ compare_samples.pl - compare a list of sample_ids data against reference data
   --samples_dir   (-sdir)  Directory where the sample data is going to be stored 
 
   Extra Options:
-  --reference_dir (-rdir)  Directory containing the reference data                 (default= ./etc/data/ref-data)
-  --action       (-act)     Command line action [compare|generate_ref]             (default= compare) 
-  --peaks_coeff  (-pcoeff)  Peaks coefficient used in the peaks matching formula   (default= 10) 
-  --anomaly_perc (-aperc)   All computed deviations will be flagged as anomalies   (default= 10)
+  --reference_dir (-rdir)    Directory containing the reference data                (default= ./etc/data/ref-data)
+  --reports_dir   (-repdir)  Directory where the reports are going to be generated  (default= ./html-report 
+  --action        (-act)     Command line action [compare|generate_ref]             (default= compare) 
+  --peaks_coeff   (-pcoeff)  Peaks coefficient used in the peaks matching formula   (default= 10) 
+  --anomaly_perc  (-aperc)   All computed deviations will be flagged as anomalies   (default= 10)
                             if superior or equal to this value
   --nocache                 To not use the cached information and regenerate a new dataset 
-  --database     (-db)      Database name to access                      (default= idcdev.ctbto.org)
-  --user         (-u)       Database user                                (default= centre)
-  --password     (-p)       Database password                            (default= password of the centre user)
+  --database      (-db)      Database name to access                      (default= idcdev.ctbto.org)
+  --user          (-u)       Database user                                (default= centre)
+  --password      (-p)       Database password                            (default= password of the centre user)
 
   Help Options:
    --help     Show this scripts help information.
