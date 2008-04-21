@@ -1,7 +1,24 @@
 INSTALL the AutoSaint Comparator
 --------------------------------
 
-You need to add the necessary perl modules in the env variable PERL5LIB
+You need to add the necessary perl modules in the env variable PERL5LIB:
+
+- You need to have the DBI.pm and DBD.pm in the the env variable PERL5LIB
+- You also need to have the module used locally by the program which are under libs/ext/...
+
+SET Variables to use from /home/smd/aubert/autosaint-comparator Installation on Linux (tested dls008)
+-----------------------------------------------------------------------------------------------------
+
+You need to setup PERL5LIB as such:
+
+under csh/tcsh:
+setenv PERL5LIB /home/smd/aubert/autosaint-comparator/libs/local:/home/smd/aubert/autosaint-comparator/libs/ext:/home/smd/aubert/compare/libs/local:/home/smd/aubert/compare/libs/ext:/dvl/software/shi/scripts/lib:/dvl/software/shi/scripts/lib/perl5/site_perl:/dvl/software/site/usr/lib/perl5/site_perl:/dvl/software/site/usr/lib64/perl5/site_perl
+
+under bash/sh:
+export PERL5LIB=/home/smd/aubert/autosaint-comparator/libs/local:/home/smd/aubert/autosaint-comparator/libs/ext:/home/smd/aubert/compare/libs/local:/home/smd/aubert/compare/libs/ext:/dvl/software/shi/scripts/lib:/dvl/software/shi/scripts/lib/perl5/site_perl:/dvl/software/site/usr/lib/perl5/site_perl:/dvl/software/site/usr/lib64/perl5/site_perl
+
+INSTALL on Linux machine (tested on dls008)
+--------------------------------------------
 
 under bash :
 export PERL5LIB=AUTOSAINTCOMPARATOR_HOME_DIR/libs/local:AUTOSAINTCOMPARATOR_HOME_DIR/libs/ext:$PERL5LIB

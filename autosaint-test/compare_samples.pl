@@ -199,7 +199,7 @@ compare_samples.pl - compare a list of sample_ids data against reference data
 
   The following is an example of this script:
    
-  ./compare_samples.pl -rdir -sdir ./sample-dir 123456 345677 889909
+  ./compare_samples.pl -rdir -sdir ./sample-dir 
 
   or using xargs in order to read a file containing the list of sample ids:
   cat ./etc/sample_ids_example | xargs ./compare_samples.pl -sdir ~/sample-dir -nocache
