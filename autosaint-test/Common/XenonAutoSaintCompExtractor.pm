@@ -12,9 +12,9 @@ use base qw(Extractor);
 my $COMP_DEBUG = 0;
 
 # Class Members
-my $GETREFIDSFROMSTATIONIDS = "select distinct gsa.SAMPLE_REF_ID from rmsuser.gards_sample_aux gsa,rmsuser.gards_sample gs where gsa.sample_id=gs.sample_id and gs.station_code in (##VALS##) and gs.SPECTRAL_QUALIFIER=\'FULL\' and gs.data_type=\'S\'";
+my $GETALLREFIDSFROMGARDSXERESULTS = "select distinct gsa.SAMPLE_REF_ID from rmsuser.gards_sample_aux gsa,plenteda.gards_XE_results gxen where gsa.sample_id=gxen.sample_id";
 
-my $GETREFIDSFROMSAMPLEIDS = "select distinct gsa.SAMPLE_REF_ID from rmsuser.gards_sample_aux gsa,rmsuser.gards_sample gs where gsa.sample_id=gs.sample_id and gs.sample_id in (##VALS##) and gs.SPECTRAL_QUALIFIER=\'FULL\' and gs.data_type=\'S\'";
+my $GETREFIDSFROMSAMPLEIDS = "select distinct gsa.SAMPLE_REF_ID from rmsuser.gards_sample_aux gsa,plenteda.gards_XE_results gxen where gsa.sample_id=gxen.sample_id and gxen.sample_id in (##VALS##)";
 
 
 # Class Methods
@@ -82,7 +82,7 @@ sub _get_sample_id_from_ref_ids
 
     print "Get sample_ids:Read sample_ids from database \n";
 
-    my $sql = "select distinct concat(concat(to_char(gsa.sample_ref_id),'-'),to_char(gs.sample_id)) from rmsuser.gards_sample_aux gsa,rmsuser.gards_sample gs where gsa.sample_id=gs.sample_id and gsa.sample_ref_id in ($str_sample_ref_ids) and gs.SPECTRAL_QUALIFIER=\'FULL\' and gs.data_type=\'S\'";
+    my $sql = "select distinct concat(concat(to_char(gsa.sample_ref_id),'-'),to_char(gs.sample_id)) from rmsuser.gards_sample_aux gsa, plenteda.gards_XE_results gxen where gsa.sample_id=gs.sample_id and gsa.sample_ref_id in ($str_sample_ref_ids)";
 
     $sth = $loc_dbh->prepare($sql);
 
@@ -163,9 +163,9 @@ sub _get_sample_ref_ids
 
   my $sql = "";
 
-  if ($type eq "STATIONIDS")
+  if ($type eq "ALLREFIDS")
   {
-    $sql = $GETREFIDSFROMSTATIONIDS;
+    $sql = $GETALLREFIDSFROMGARDSXERESULTS;
   }
   elsif ($type eq "SAMPLEIDS")
   {
@@ -173,10 +173,10 @@ sub _get_sample_ref_ids
   }
   else
   {
-    die "Error: $type is an unknown type. Only STATIONIDS and SAMPLEIDS is supported";
+    die "Error: $type is an unknown type. Only ALLREFIDS and SAMPLEIDS is supported";
   }
 
-  # substitue ##VALS## with real values
+  # substitue ##VALS## with real values or do nothing as there are no substitutions to be done
   $sql =~ s/##VALS##/$ids_str/g;
 
 
@@ -234,6 +234,9 @@ sub extract_comparison_data
   print "Extract comparison data: execute sql requests to get the necessary data\n";
 
   #prepare statements
+
+  my $statement_c = "select ";
+
   my $get_energy_cal     = $l_dbh->prepare("select coeff1,coeff2,coeff3,coeff4,coeff5,coeff6,coeff7,coeff8 from rmsuser.gards_energy_cal where sample_id=?");
 
   my $get_resolution_cal  = $l_dbh->prepare("select coeff1,coeff2,coeff3,coeff4,coeff5,coeff6,coeff7,coeff8 from rmsuser.gards_resolution_cal where sample_id=?");
@@ -443,7 +446,7 @@ sub get_reference_data
   my $idcdev_dbh = $self->_get_connection_on_db("idcdev","centre","data");
 
   # get ref_ids from idcdev 
-  print "\nGet sample_ref_ids from stations\n";
+  print "\nGet sample_ref_ids from fogo\n";
 
   my @ref_ids = $self->_get_sample_ref_ids("STATIONIDS",\@list,$no_cache,$idcdev_dbh);
 

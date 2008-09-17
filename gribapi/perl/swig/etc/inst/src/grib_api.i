@@ -36,7 +36,7 @@ extern int grib_get_long(grib_handle* INPUT, const char* INPUT, long* OUTPUT);
 /* Return an array containing a the result of the function and the len  */
 extern int grib_get_size(grib_handle* INPUT, const char* INPUT,size_t* OUTPUT);
 
-/* TODO: the use should not have to allocate and free the array of values.
+/* TODO: the user should not have to allocate and free the array of values.
 Instead, he should pass the size of the array to allocate and the array should be allocated in a wrapper.
 What about the release. It should be handled a a perl array: C arr dynamically allocated and read values recopied into the
 the perl array
