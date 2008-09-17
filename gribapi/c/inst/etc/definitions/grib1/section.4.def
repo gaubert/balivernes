@@ -1,0 +1,131 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+#label                Grib_1_Section_4;
+# START grib1::section
+# SECTION 4, Binary data section
+#  Length of section
+# (octets)
+position offsetSection4;
+
+# Due to a trick done by GRIBEX to support large GRIBs, we need a special treatment
+# of the message length and of the section4 lenth, so instead of
+# length[3] section4Length                     ;
+# we get:
+g1_section4_length[3] section4Length(totalLength);
+
+g1_half_byte_codeflag halfByte;
+flags[1] dataFlag "grib1/11.table" = 0 : read_only;
+signed[2] binaryScaleFactor = 0 : read_only,dump;
+ibmfloat referenceValue : read_only,dump;
+unsigned[1] numberOfBitsContainingEachPackedValue : dump ;
+alias nbp = numberOfBitsContainingEachPackedValue;
+alias numberOfBits = numberOfBitsContainingEachPackedValue;
+alias bitsPerValue = numberOfBitsContainingEachPackedValue;
+
+# Octets 12-Variable, : depending on the flag value in octet 4
+#           depending_on_the_flag_value_in_octet_4
+flagbit sphericalHarmonics(dataFlag,7) : required,dump;
+flagbit complexPacking(dataFlag,6) : required,dump;
+flagbit integerPointValues(dataFlag,5) : required,dump;
+flagbit additionalFlagPresent(dataFlag,4) : edition_specific,required,dump;
+
+
+if( binaryScaleFactor == -32767) {
+  constant dataRepresentationTemplateNumber = 0;
+  constant bitMapIndicator = 0;
+  # For grib 1 -> 2
+  position offsetBeforeData;
+  meta values data_dummy_field(
+        section4Length,
+        offsetBeforeData,
+        offsetSection4,
+        nbp,
+        referenceValue,
+        binaryScaleFactor,
+        decimalScaleFactor,
+        halfByte,
+        missingValue
+      ) : dump;
+} else {
+  template dataValues
+   "grib1/data.[sphericalHarmonics:l].[complexPacking:l].[integerPointValues:l].[additionalFlagPresent:l].def";
+
+}
+position offsetAfterData;
+
+transient dataLength=(offsetAfterData-offsetBeforeData)/8;
+
+if (bitmapSectionPresent==1) {
+  transient numberOfEffectiveValues=numberOfPoints;
+} else {
+  transient numberOfEffectiveValues=numberOfCodedValues;
+}
+
+meta setDecimalPrecision decimal_precision(values,bitsPerValue,decimalScaleFactor)  : edition_specific;
+
+trigger (values) {
+  meta dirty_statistics dirty(computeStatistics) ;
+}
+
+meta computeStatistics statistics(missingValue,values);
+
+meta max vector(computeStatistics,0) : dump;
+meta min vector(computeStatistics,1) : dump;
+meta average vector(computeStatistics,2) : dump;
+meta numberOfMissing vector(computeStatistics,3) : dump;
+
+alias numberOfMissingValues=numberOfMissing;
+
+concept typeOfGrid {
+  "regular_ll" = { dataRepresentationType = 0; sphericalHarmonics = 0;  PLPresent=0;}
+  "reduced_ll" = { dataRepresentationType = 0; sphericalHarmonics = 0;  PLPresent=1; Ni=missing(); }
+  "mercator" = { dataRepresentationType = 1; sphericalHarmonics = 0;PLPresent=0; }
+  "lambert" = { dataRepresentationType = 3; sphericalHarmonics = 0; PLPresent=0; }
+  "polar_stereographic" = { dataRepresentationType = 5; sphericalHarmonics = 0; PLPresent=0; }
+  "UTM" = { dataRepresentationType = 6; sphericalHarmonics = 0;PLPresent=0;}
+  "simple_polyconic" = { dataRepresentationType = 7; sphericalHarmonics = 0;  PLPresent=0;}
+  "albers" = { dataRepresentationType = 8; sphericalHarmonics = 0; PLPresent=0; }
+  "miller" = { dataRepresentationType = 8; sphericalHarmonics = 0; PLPresent=0; }
+  "rotated_ll" = { dataRepresentationType = 10; sphericalHarmonics = 0; PLPresent=0;}
+  "stretched_ll" = { dataRepresentationType = 20; sphericalHarmonics = 0;PLPresent=0;}
+  "stretched_rotated_ll" = { dataRepresentationType = 30; sphericalHarmonics = 0; PLPresent=0;}
+  "regular_gg" = { sphericalHarmonics = 0;additionalFlagPresent = 0; dataRepresentationType = 4;  PLPresent=0;}
+  "rotated_gg" = { dataRepresentationType = 14; sphericalHarmonics = 0; PLPresent=0;}
+  "stretched_gg" = { dataRepresentationType = 24; sphericalHarmonics = 0;PLPresent=0; }
+  "stretched_rotated_gg" = { dataRepresentationType = 34; sphericalHarmonics = 0; PLPresent=0;}
+  "reduced_gg" = { numberOfPointsAlongAParallel = missing(); dataRepresentationType = 4;PLPresent=1;  sphericalHarmonics = 0;complexPacking = 0;additionalFlagPresent = 0; }
+  "sh"         = { dataRepresentationType = 50;sphericalHarmonics = 1;PLPresent=0; }
+  "rotated_sh" = { dataRepresentationType = 60; sphericalHarmonics = 1;PLPresent=0; }
+  "stretched_sh" = { dataRepresentationType = 70; sphericalHarmonics = 1;PLPresent=0; }
+  "stretched_rotated_sh" = { dataRepresentationType = 80; sphericalHarmonics = 1;PLPresent=0;}
+  "space_view" = { dataRepresentationType = 90; PLPresent=0; }
+  "unknown" = {PLPresent=0;}
+  "unknown_PLPresent" = {PLPresent=1;}
+} : dump;
+
+alias ls.gridType=typeOfGrid;
+
+concept typeOfPacking {
+  "grid_simple" = { sphericalHarmonics = 0;complexPacking = 0;additionalFlagPresent = 1; matrixOfValues = 0; secondaryBitMap = 0; secondOrderOfDifferentWidth = 0;}
+#set uses the last one
+  "grid_simple" = { complexPacking = 0;sphericalHarmonics = 0;additionalFlagPresent = 0;}
+  "grid_simple_matrix" = { sphericalHarmonics = 0; complexPacking = 0;additionalFlagPresent=1;matrixOfValues=1;secondaryBitmapPresent=0;}
+  "grid_simple_matrix_bitmap" = { sphericalHarmonics = 0;complexPacking= 0;additionalFlagPresent = 1;matrixOfValues=1;secondaryBitmapPresent=1;}
+  "grid_second_order" = {sphericalHarmonics = 0; complexPacking = 1;additionalFlagPresent = 0;}
+  "grid_second_order_different_width" = {sphericalHarmonics = 0; complexPacking = 1;additionalFlagPresent = 1; matrixOfValues = 0; secondaryBitMap = 0;secondOrderOfDifferentWidth = 1;}
+  "spectral_complex"     = { sphericalHarmonics = 1; complexPacking = 1;}
+  "spectral_simple"     = {sphericalHarmonics = 1; complexPacking = 0; }
+  "grid_unknown" = { sphericalHarmonics = 0;}
+  "spectral_unknown" = { sphericalHarmonics = 1;}
+} : dump;
+
+alias ls.packingType=typeOfPacking;
+alias dataRepresentation=packingType;
+
+padtoeven padding_sec4_1(offsetSection4,section4Length) ;
+

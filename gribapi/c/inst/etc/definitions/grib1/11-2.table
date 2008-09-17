@@ -1,0 +1,9 @@
+# CODE TABLE 11-2, Flag
+1 0 Reserved
+1 1 Reserved
+2 0 Single datum at each grid point
+2 1 Matrix of values at each grid point
+3 0 No secondary bitmap Present
+3 1 Secondary bitmap Present
+4 0 Second-order values constant width
+4 1 Second-order values different widths

@@ -1,0 +1,78 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# TEMPLATE 3.30, Lambert conformal
+include "template.3.shape_of_the_earth.def";
+
+
+#  Nx - number of points along the X-axis
+
+unsigned[4] numberOfPointsAlongTheXAxis  : dump;
+alias Nx  = numberOfPointsAlongTheXAxis;
+alias fieldWidth = numberOfPointsAlongTheXAxis; # For jpeg and png
+
+
+#  Ny - number of points along the Y-axis
+
+unsigned[4] numberOfPointsAlongTheYAxis  : dump;
+alias Ny  = numberOfPointsAlongTheYAxis;
+alias fieldHeight = numberOfPointsAlongTheYAxis; # For jpeg and png
+
+#  La1 - latitude of first grid point
+signed[4] latitudeOfFirstGridPoint : edition_specific,dump;
+
+alias La1  = latitudeOfFirstGridPoint;
+#  Lo1 - longitude of first grid point
+unsigned[4] longitudeOfFirstGridPoint : edition_specific,dump;
+
+alias Lo1  = longitudeOfFirstGridPoint;
+
+include "template.3.resolution_flags.def";
+
+#  LaD - Latitude where Dx and Dy are specified
+signed[4] latitudeWhereDxAndDyAreSpecified : dump ;
+
+alias LaD =  latitudeWhereDxAndDyAreSpecified;
+#  LoV - Longitude of meridian parallel to Y-axis along which latitude increases as the Y-coordinate increases
+unsigned[4] longitudeOfMeridianParallelToYAxisAlongWhichLatitudeIncreasesAsTheYCoordinateIncreases  : dump;
+
+alias LoV =  longitudeOfMeridianParallelToYAxisAlongWhichLatitudeIncreasesAsTheYCoordinateIncreases;
+#  Dx - X-direction grid length
+# NOTE 1 NOT FOUND
+unsigned[4] xDirectionGridLength : dump ;
+
+alias Dx =  xDirectionGridLength;
+#  Dy - Y-direction grid length
+# NOTE 1 NOT FOUND
+unsigned[4] yDirectionGridLength : dump ;
+
+alias Dy =  yDirectionGridLength;
+#  Projection centre flag
+flags[1] projectionCentreFlag 'grib2/3.5.table' : dump;
+
+include "template.3.scanning_mode.def";
+
+#  Latin 1 - first latitude from the pole at which the secant cone cuts the sphere
+signed[4] FirstLatitudeFromThePoleAtWhichTheSecantConeCutsTheSphere  : dump;
+alias Latin1  = FirstLatitudeFromThePoleAtWhichTheSecantConeCutsTheSphere;
+
+#  Latin 2 - second latitude from the pole at which the secant cone cuts the sphere
+signed[4] SecondLatitudeFromThePoleAtWhichTheSecantConeCutsTheSphere  : dump;
+alias Latin2  = SecondLatitudeFromThePoleAtWhichTheSecantConeCutsTheSphere;
+
+#  Latitude of the southern pole of projection
+signed[4] latitudeOfTheSouthernPoleOfProjection : dump;
+alias latitudeOfSouthernPole=latitudeOfTheSouthernPoleOfProjection;
+
+#  Longitude of the southern pole of projection
+unsigned[4] longitudeOfTheSouthernPoleOfProjection : dump;
+alias longitudeOfSouthernPole=longitudeOfTheSouthernPoleOfProjection;
+
+meta  latitudeOfSouthernPoleInDegrees   scale(latitudeOfSouthernPole
+                                                 ,one,grib2divider) : dump;
+meta  longitudeOfSouthernPoleInDegrees   scale(longitudeOfSouthernPole
+                                                 ,oneConstant,grib2divider) : dump;

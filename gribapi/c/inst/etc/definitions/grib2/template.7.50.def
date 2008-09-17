@@ -1,0 +1,31 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+# START 2/template.7.50 ----------------------------------------------------------------------
+# TEMPLATE 7.50, Spectral data - simple packing
+# Octets 6-nn : Binary data values - binary string, with each
+# (scaled)
+
+   meta packedCodedValues data_simple_packing(
+              section7Length,
+              offsetBeforeData,
+              offsetOfSection,
+              numberOfValues,
+              numberOfBitsContainingEachPackedValue,
+              referenceValue,
+              binaryScaleFactor,
+              decimalScaleFactor
+    ) : read_only;
+
+    meta codedValues data_g2shsimple_packing(
+              packedCodedValues,
+              realPartOfCoefficient,
+              numberOfValues
+            ) : read_only;
+
+# END   2/template.7.50 ----------------------------------------------------------------------

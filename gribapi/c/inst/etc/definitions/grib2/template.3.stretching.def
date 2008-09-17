@@ -1,0 +1,17 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Stretching information";
+
+#  Latitude of the pole of stretching
+signed[4] latitudeOfThePoleOfStretching  : dump;
+
+#  Longitude of the pole of stretching
+signed[4] longitudeOfThePoleOfStretching  : dump;
+
+#  Stretching factor
+unsigned[4] stretchingFactor  : dump; # TODO: Is it a float? Is it signed?

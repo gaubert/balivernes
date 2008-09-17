@@ -1,0 +1,59 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Rectangular cluster";
+
+#  Cluster identifier
+unsigned[1] clusterIdentifier : dump ;
+
+#  Number of cluster to which the high resolution control belongs
+unsigned[1] numberOfClusterToWhichTheHighResolutionControlBelongs  : dump;
+
+#  Number of cluster to which the low resolution control belongs
+unsigned[1] numberOfClusterToWhichTheLowResolutionControlBelongs : dump ;
+
+#  Total number of clusters
+unsigned[1] totalNumberOfClusters : dump ;
+
+#  Clustering method
+codetable[1] clusteringMethod 'grib2/4.8.table' : dump;
+
+#  Northern latitude of cluster domain
+unsigned[4] northernLatitudeOfClusterDomain : dump ;
+
+#  Southern latitude of cluster domain
+unsigned[4] southernLatitudeOfClusterDomain : dump ;
+
+#  Eastern longitude of cluster domain
+unsigned[4] easternLongitudeOfClusterDomain  : dump;
+
+#  Western longitude of cluster domain
+unsigned[4] westernLongitudeOfClusterDomain : dump ;
+
+#  NC - Number of forecasts in the cluster
+unsigned[1] numberOfForecastsInTheCluster : dump ;
+
+alias NC  = numberOfForecastsInTheCluster;
+#  Scale factor of standard deviation in the cluster
+unsigned[1] scaleFactorOfStandardDeviationInTheCluster : dump ;
+
+#  Scaled value of standard deviation in the cluster
+unsigned[4] scaledValueOfStandardDeviationInTheCluster : dump ;
+
+#  Scale factor of distance of the cluster from ensemble mean
+unsigned[1] scaleFactorOfDistanceOfTheClusterFromEnsembleMean : dump ;
+
+#  Scaled value of distance of the cluster from ensemble mean
+unsigned[4] scaledValueOfDistanceOfTheClusterFromEnsembleMean : dump ;
+
+# List is not defined here, because it has to be after the
+# statistical processing
+
+# Octets 69-(68+NC) : List of NC ensemble forecast numbers
+# (NC is given in octet 58)
+# ????          list_of_nc_ensemble_forecast_numbers
+

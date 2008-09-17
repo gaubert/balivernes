@@ -1,0 +1,36 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+constant oneConstant=1 : hidden;
+constant oneMillionConstant=1000000 : hidden;
+meta offset offset_file();
+meta count count_file();
+meta countTotal count_total();
+
+lookup[4] kindOfProduct       (0,identifier);
+# grib templates
+# `ABCD` is a number, each letter being a byte
+
+if(kindOfProduct == `GRIB`){
+ lookup[1] GRIBEditionNumber  (7,editionNumber)  : edition_specific  ;
+ template      GRIB "grib[GRIBEditionNumber:l]/boot.def" ;
+}
+
+if(kindOfProduct == `BUDG`){
+ template      BUDG "budg/boot.def" ;
+}
+
+if(kindOfProduct == `TIDE`){
+ template      TIDE "tide/boot.def" ;
+}
+
+
+# Used by grib_convert and grib_set
+
+transient scaleValuesBy  = 1 : hidden;
+transient offsetValuesBy = 0 : hidden;

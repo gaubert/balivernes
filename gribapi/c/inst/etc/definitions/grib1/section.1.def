@@ -1,0 +1,313 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+#label        Grib_Section_1                      ;
+# START grib1::section
+# SECTION 1, Product definition section
+#  Length of section
+constant ECMWF = 98 : hidden;
+position offsetSection1;
+length[3] section1Length ;
+
+#  GRIB tables Version No.
+# (currently 3 for international exchange)
+unsigned[1] gribTablesVersionNo : edition_specific,dump;
+alias table2Version=gribTablesVersionNo;
+
+#assert(section1Length > 5);
+
+#  Identification of originating/generating center
+codetable[1] identificationOfOriginatingGeneratingCentre 'grib1/0.table' : dump;
+
+alias ls.centre = identificationOfOriginatingGeneratingCentre;
+alias identificationOfCentre=identificationOfOriginatingGeneratingCentre;
+alias originatingCentre=identificationOfOriginatingGeneratingCentre;
+
+#  Generating process identification number
+# (allocated by originating center)
+unsigned[1] generatingProcessIdentifier : dump ;
+alias generatingProcessIdentificationNumber=generatingProcessIdentifier;
+alias process=generatingProcessIdentifier;
+
+#  Grid definition
+# (Number of grid used - from catalog defined by originating center)
+unsigned[1] gridDefinition = 255 : edition_specific ;
+
+#  Flag
+flags[1] section1Flags 'grib1/1.table' = 128 : hidden ; # = section 2 present
+
+#  Indicator of parameter
+if(gribTablesVersionNo >= 128) {
+  codetable[1] indicatorOfParameter 'grib1/2.[centreForTableNumber:l].[gribTablesVersionNo:l].table' : edition_specific,dump;
+} else {
+  codetable[1] indicatorOfParameter 'grib1/2.wmo.[gribTablesVersionNo:l].table' : edition_specific,dump;
+}
+
+meta marsParam sprintf("%d.%d",indicatorOfParameter,gribTablesVersionNo): read_only,dump;
+alias mars.param = marsParam;
+alias ls.param=marsParam;
+
+#  Indicator of type of level
+codetable[1] indicatorOfTypeOfLevel 'grib1/3.table' : edition_specific,dump;
+alias ls.levelType=indicatorOfTypeOfLevel;
+alias typeOfLevel=indicatorOfTypeOfLevel;
+
+if ( indicatorOfTypeOfLevel == 101 or
+     indicatorOfTypeOfLevel == 104 or
+     indicatorOfTypeOfLevel == 106 or
+     indicatorOfTypeOfLevel == 108 or
+     indicatorOfTypeOfLevel == 110 or
+     indicatorOfTypeOfLevel == 112 or
+     indicatorOfTypeOfLevel == 114 or
+     indicatorOfTypeOfLevel == 116 or
+     indicatorOfTypeOfLevel == 120 or
+     indicatorOfTypeOfLevel == 121 or
+     indicatorOfTypeOfLevel == 128 or
+     indicatorOfTypeOfLevel == 141    )
+{
+    unsigned[1] topLevel : can_be_missing;
+    unsigned[1] bottomLevel : can_be_missing;
+    meta levels sprintf("%d-%d",topLevel,bottomLevel) : dump;
+    alias ls.levs=levels;
+    alias level = topLevel;
+    alias mars.levelist = topLevel;
+}
+else
+{
+    unsigned[2] level :can_be_missing;
+    alias topLevel    = level;
+    alias bottomLevel = level;
+    alias ls.lev=level;
+    if (level == 0) {
+      transient typeOfFirstFixedSurface = 1 ;
+      transient scaleFactorOfFirstFixedSurface = missing();
+      transient scaledValueOfFirstFixedSurface = missing();
+    } else {
+
+    # TODO: BR, make sure the indicatorOfTypeOfLevel is the same as
+
+    # For grib 1 to 2
+    transient typeOfFirstFixedSurface = indicatorOfTypeOfLevel;
+    }
+    alias mars.levelist = level;
+}
+
+#  Height, pressure, etc. of levels
+
+#  Year of century
+# NOTE 6 NOT FOUND
+unsigned[1] yearOfCentury : edition_specific ;
+
+#  Month
+unsigned[1] month  ;
+
+#  Day
+unsigned[1] day ;
+
+#  Hour
+unsigned[1] hour  ;
+
+#  Minute
+unsigned[1] minute  ;
+
+constant second = 0;
+
+#  Indicator of unit of time range
+codetable[1] indicatorOfUnitOfTimeRange 'grib1/4.table';
+alias unitOfTime=indicatorOfUnitOfTimeRange;
+
+#  P1 - Period of time
+# (number of time units)
+unsigned[1] periodOfTime : dump ;
+
+alias   P1  = periodOfTime ;
+
+#  P2 - Period of time
+# (number of time units)
+unsigned[1] periodOfTimeIntervals : dump;
+
+alias   P2  = periodOfTimeIntervals;
+#  Time range indicator
+# (see Code table 5)
+codetable[1] timeRangeIndicator 'grib1/5.table' = 1 : dump;
+
+# conversion 1 to 2
+if (timeRangeIndicator==5) {
+  transient typeOfStatisticalProcessing=1;
+  transient forecastTime=P1;
+  transient typeOfTimeIncrement = 2;
+  transient indicatorOfUnitForTimeRange = indicatorOfUnitOfTimeRange;
+  transient lengthOfTimeRange = P2-P1;
+  transient indicatorOfUnitForTimeIncrement=1;
+  transient indicatorOfUnitForTimeIncrement=0;
+
+  meta endOfInterval g1end_of_interval(date,hour,minute,P2,indicatorOfUnitOfTimeRange);
+
+  meta yearOfEndOfOverallTimeInterval    vector(endOfInterval,0);
+  meta monthOfEndOfOverallTimeInterval   vector(endOfInterval,1);
+  meta dayOfEndOfOverallTimeInterval     vector(endOfInterval,2);
+  meta hourOfEndOfOverallTimeInterval    vector(endOfInterval,3);
+  meta minuteOfEndOfOverallTimeInterval  vector(endOfInterval,4);
+  meta secondOfEndOfOverallTimeInterval  vector(endOfInterval,5);
+  meta endOfTimeIntervalDate  vector(endOfInterval,6);
+
+}
+
+if (timeRangeIndicator == 2) {
+  transient forecastTime=P1;
+  transient typeOfTimeIncrement = 2;
+  transient indicatorOfUnitForTimeRange = indicatorOfUnitOfTimeRange;
+  transient lengthOfTimeRange = P2-P1;
+  transient indicatorOfUnitForTimeIncrement=1;
+  transient indicatorOfUnitForTimeIncrement=0;
+
+  meta endOfInterval g1end_of_interval(date,hour,minute,P2,indicatorOfUnitOfTimeRange);
+
+  meta yearOfEndOfOverallTimeInterval    vector(endOfInterval,0);
+  meta monthOfEndOfOverallTimeInterval   vector(endOfInterval,1);
+  meta dayOfEndOfOverallTimeInterval     vector(endOfInterval,2);
+  meta hourOfEndOfOverallTimeInterval    vector(endOfInterval,3);
+  meta minuteOfEndOfOverallTimeInterval  vector(endOfInterval,4);
+  meta secondOfEndOfOverallTimeInterval  vector(endOfInterval,5);
+  meta endOfTimeIntervalDate  vector(endOfInterval,6);
+}
+
+
+#  Number included in average, when octet 21
+# (Code table 5)
+unsigned[2] numberIncludedInAverage;
+
+#  Number missing from averages or accumulations
+unsigned[1] numberMissingFromAveragesOrAccumulations;
+
+#  Century of reference time of data
+# NOTE 6 NOT FOUND
+unsigned[1] centuryOfReferenceTimeOfData ;
+
+#  Sub-center identification
+codetable[1] identificationOfOriginatingGeneratingSubCentre 'grib1/0.[centre].table' : dump;
+
+alias subCentre = identificationOfOriginatingGeneratingSubCentre;
+
+#  Units decimal scale factor
+# (D)
+signed[2] decimalScaleFactor :dump;
+
+# constant section1LengthWithoutLocalDefinition = 40;
+
+transient setLocalDefinition= 0;
+#if(section1Length > 28 or new() or (setLocalDefinition>1))
+#{
+#  Reserved: need not be present
+#  pad reservedNeedNotBePresent(12);
+#}
+
+# Octets 41-nn : Reserved for originating center use
+# ????          reserved_for_originating_center_use
+
+###################################################################################################
+
+meta      dataDate            g1date(centuryOfReferenceTimeOfData,yearOfCentury,month,day) : dump;
+meta      year                evaluate(dataDate / 10000) ;
+meta      monthlyDate         g1monthlydate(dataDate) ;
+
+
+meta      dataTime    time(hour,minute,second) : dump;
+
+
+meta startStepInHours  g1startstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+meta endStepInHours    g1endstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+meta stepInHours       g1step(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+meta stepRange          g1marsstep(startStepInHours,endStepInHours,timeRangeIndicator) : dump,edition_specific;
+
+alias marsStep = stepInHours;
+alias mars.step = stepInHours;
+alias ls.stepRange=stepRange;
+alias mars.startStep = startStepInHours ;
+alias marsStartStep=startStepInHours;
+alias mars.endStep = endStepInHours ;
+alias marsEndStep = endStepInHours ;
+
+meta      verificationDate           g1verificationdate(dataDate, hour, stepInHours) : read_only;
+meta      monthlyVerificationDate    g1monthlydate(verificationDate) : dump;
+meta      dayOfTheYearDate           g1day_of_the_year_date(centuryOfReferenceTimeOfData,yearOfCentury,month,day) : dump;
+
+transient  forecastTime = stepInHours; # For grib 1 to 2
+
+alias mars.date      = dataDate;
+alias ls.date = dataDate;
+
+alias mars.levtype = indicatorOfTypeOfLevel;
+alias mars.time = dataTime;
+
+
+constant wrongPadding = 0;
+
+if((section1Length > 40) or new() or setLocalDefinition> 0)
+{
+  constant localUsePresent = 1;
+
+  # ECMWF fields
+
+  if( (identificationOfOriginatingGeneratingCentre == ECMWF) or
+      (identificationOfOriginatingGeneratingCentre != ECMWF and
+        identificationOfOriginatingGeneratingSubCentre == ECMWF))
+  {
+    pad reservedNeedNotBePresent(12);
+    meta parameter g1param(indicatorOfParameter,gribTablesVersionNo) : dump;
+    codetable[1] localDefinitionNumber 'grib1/localDefinitionNumber.98.table' = 1 : dump;
+    template  localDefinition  "grib1/local.98.[localDefinitionNumber:l].def";
+    transient centreForTableNumber=98;
+    trigger(localDefinitionNumber) {
+      if(!new()) {
+         section_padding localExtensionPadding : read_only;
+      }
+    }
+  }
+  else
+  { if (! new()) {
+    # Other centers
+    pad reservedNeedNotBePresent(12);
+    meta parameter g1param(indicatorOfParameter,gribTablesVersionNo) : dump;
+    transient centreForTableNumber=identificationOfOriginatingGeneratingCentre;
+    template  localDefinition  "grib1/local.[identificationOfOriginatingGeneratingCentre:l].def";
+    }
+    section_padding localExtensionPadding : read_only;
+  }
+
+}
+else
+{
+   constant localUsePresent  = 0;
+   transient centreForTableNumber=identificationOfOriginatingGeneratingCentre;
+#   template defaultMarsLabeling "mars/default_labeling.def";
+}
+
+section_padding section1Padding : read_only;
+
+if (!wrongPadding) {
+  padtoeven evenpadding_sec1(offsetSection1,section1Length);
+}
+
+
+if( (identificationOfOriginatingGeneratingCentre == ECMWF) or (identificationOfOriginatingGeneratingCentre != ECMWF and identificationOfOriginatingGeneratingSubCentre == ECMWF))
+{ 
+	concept grib1_short_name "grib1/grib1_short_name.def";
+	alias ls.short_name=grib1_short_name;
+
+	concept grib1_name "grib1/grib1_name.def";
+	alias name=grib1_name;
+
+	concept grib1_units "grib1/grib1_units.def";
+	alias units=grib1_units;
+}
+else
+{
+	alias ls.short_name = indicatorOfParameter;	
+}
+
+# END   grib1::section

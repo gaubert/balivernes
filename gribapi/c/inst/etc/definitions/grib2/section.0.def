@@ -1,0 +1,16 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label        gribSection0;
+position  offsetSection0;
+ascii[4]     identifier       = "GRIB"              : read_only;
+unsigned[2]  reserved          = missing()          : can_be_missing,hidden,read_only,edition_specific;
+codetable[1] discipline       'grib2/0.0.table' : dump;
+unsigned[1]  editionNumber = GRIBEditionNumber : edition_specific,dump;
+
+alias ls.edition = editionNumber;
+length[8]    totalLength;

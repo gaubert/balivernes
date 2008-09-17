@@ -1,0 +1,32 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Spherical harmonics";
+
+# constant dataRepresentationType  = 50;
+
+#  J - pentagonal resolution parameter
+
+unsigned[4] pentagonalResolutionParameterJ  : dump;
+alias J  = pentagonalResolutionParameterJ;
+
+#  K - pentagonal resolution parameter
+
+unsigned[4] pentagonalResolutionParameterK  : dump;
+alias K =  pentagonalResolutionParameterK;
+
+#  M - pentagonal resolution parameter
+
+unsigned[4] pentagonalResolutionParameterM  : dump;
+alias M  = pentagonalResolutionParameterM;
+
+#  Representation type indicating the method used to define the norm
+codetable[1] representationTypeIndicatingTheMethodUsedToDefineTheNorm 'grib2/3.6.table';
+
+#  Representation mode indicating the order of the coefficients
+codetable[1] representationModeIndicatingTheOrderOfTheCoefficients 'grib2/3.7.table';
+

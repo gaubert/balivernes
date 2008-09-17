@@ -1,0 +1,55 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# grib 1 -> 2
+constant gridDefinitionTemplateNumber     = 20;
+
+# START 1/grid_definition.mercator ----------------------------------------------------------------------
+# GRID DEFINITION Mercator
+#  Ni - number of points along a parallel
+
+signed[2] numberOfPointsAlongAParallel : dump;
+alias Ni = numberOfPointsAlongAParallel ;
+
+signed[2] numberOfPointsAlongAMeridian : dump;
+alias Nj = numberOfPointsAlongAMeridian;
+
+include "grid_first_last_resandcomp.def";
+
+signed[3] latitudeAtWhichTheMercatorProjectionCylinderIntersectsTheEarth ;
+meta latitudeAtWhichTheMercatorProjectionCylinderIntersectsTheEarthInDegrees scale(latitudeAtWhichTheMercatorProjectionCylinderIntersectsTheEarth,oneConstant,grib1divider) : dump;
+alias Latin=latitudeSAtWhichTheMercatorProjectionCylinderIntersectsTheEarth;
+
+pad padding_grid1_1(1);
+
+include "scanning_mode.def";
+
+signed[3] longitudinalDirectionGridLength  : dump;
+
+signed[3] latitudinalDirectionGridLength  : dump;
+
+pad padding_grid1_2(8);
+
+
+#alias geography.laFirst = latOfFirstPoint,geography);
+#alias geography.loFirst = longOfFirstPoint,geography);
+
+#alias geography.laLast = latOfLastPoint,geography);
+#alias geography.loLast = longOfLastPoint,geography);
+#alias Ni = numberOfPointsAlongAParallel;
+#alias Nj = numberOfPointsAlongAMeridian;
+#alias geography.di = longitudinalDirectionGridLength ;
+#alias geography.dj = latitudinalDirectionGridLength  ;
+
+#alias geography.latIntersects = longOfCylinderIntersects  ;
+meta numberOfDataPoints number_of_points(Ni,Nj) : dump;
+alias numberOfPoints=numberOfDataPoints;
+meta numberOfValues number_of_values(values,bitsPerValue,numberOfDataPoints,bitmapPresent,bitmap,numberOfCodedValues) : dump;
+alias ls.valuesCount=numberOfValues;
+
+
+# END   1/grid_definition.mercator ----------------------------------------------------------------------

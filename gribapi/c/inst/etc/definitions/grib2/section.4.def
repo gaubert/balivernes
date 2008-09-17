@@ -1,0 +1,60 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "grib 2 Section 4 PRODUCT DEFINITION SECTION";
+# START grib2::section
+# SECTION 4, PRODUCT DEFINITION SECTION
+#  Length of section in octets
+# (nn)
+position offsetSection4;
+length[4] section4Length ;
+
+#  Number of section
+unsigned[1] numberOfSection = 4:read_only;
+
+#  Number of coordinates values after Template
+# NOTE 1 NOT FOUND
+unsigned[2] numberOfVerticalCoordinateValues : dump ;
+alias NV = numberOfVerticalCoordinateValues;
+alias numberOfCoordinatesValues=numberOfVerticalCoordinateValues;
+
+#  Product Definition Template Number
+
+transient neitherPresent = 0;
+
+codetable[2] productDefinitionTemplateNumber    'grib2/4.0.table' : dump;
+
+if ( centre==98 && (productDefinitionTemplateNumber == 1 || productDefinitionTemplateNumber==11) ) {
+  remove  setLocalDefinition;
+  transient setLocalDefinition=1;
+} else {
+  remove  setLocalDefinition;
+  transient setLocalDefinition =0;
+}
+
+template productDefinition "grib2/template.4.[productDefinitionTemplateNumber:l].def";
+
+
+template concepts "grib2/parameters.def";
+# Used to mark end of headers. Can be accessed with grib_get_offset()
+position   endOfHeadersMaker;
+
+
+# Octets 10-xx : Product Definition Template (see Template 4.X, where X is the Product
+# ????          product_definition_template_see_template_4_x_where_x_is_the_product
+
+if(numberOfCoordinatesValues  == 0){
+  transient PVPresent = 0;
+} else {
+  transient PVPresent = 1;
+}
+
+if(PVPresent){
+ ieeefloat pv[numberOfCoordinatesValues] : dump;
+}
+# END   grib2::section
+

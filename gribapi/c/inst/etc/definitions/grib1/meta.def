@@ -1,0 +1,27 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+
+
+meta      latFirstPoint    scale(latitudeOfFirstGridPoint,grib1divider);
+
+
+meta      latLastPoint     scale(latitudeOfLastGridPoint,grib1divider);
+
+
+meta      longFirstPoint   scale(longitudeOfFirstGridPoint,grib1divider);
+
+
+meta      longOfLastPoint    scale(longitudeOfLastGridPoint,grib1divider);
+
+
+meta      iIncrement       scale(iDirectionIncrement,grib1divider);
+
+
+meta      jIncrement       scale(jDirectionIncrement,grib1divider);
+

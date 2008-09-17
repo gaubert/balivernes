@@ -1,0 +1,13 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+meta marsStep g2step(forecastTime,indicatorOfUnitOfTimeRange) : dump,edition_specific;
+
+alias marsStartStep = marsStep;
+alias marsEndStep   = marsStep;
+alias mars.step     = marsStep;
+alias ls.step = marsStep;

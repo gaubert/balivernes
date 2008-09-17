@@ -1,0 +1,114 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "statistical processing";
+#  Year of end of overall time interval
+unsigned[2] yearOfEndOfOverallTimeInterval =0 ;
+
+#  Month of end of overall time interval
+unsigned[1] monthOfEndOfOverallTimeInterval =0;
+
+#  Day of end of overall time interval
+unsigned[1] dayOfEndOfOverallTimeInterval =0 ;
+
+#  Hour of end of overall time interval
+unsigned[1] hourOfEndOfOverallTimeInterval =0;
+
+#  Minute of end of overall time interval
+unsigned[1] minuteOfEndOfOverallTimeInterval =0;
+
+#  Second of end of overall time interval
+unsigned[1] secondOfEndOfOverallTimeInterval =0 ;
+
+#  n - number of time range specifications describing the time intervals used to calculate the statistically-processed field
+unsigned[1]  numberOfTimeRange = 1 : dump;
+alias numberOfTimeRangeSpecificationsDescribingTheTimeIntervalsUsedToCalculateTheStatisticallyProcessedField =numberOfTimeRange;
+alias n =  numberOfTimeRange;
+
+statisticalProcessesList list(numberOfTimeRange)
+{
+
+#  Total number of data values missing in statistical process
+unsigned[4] totalNumberOfDataValuesMissingInStatisticalProcess = 0  : dump;
+
+#  Statistical process used to calculate the processed field from the field at each time increment during the time range
+codetable[1] typeOfStatisticalProcessing 'grib2/4.10.table' : dump;
+meta typeOfStatisticalProcessingName codetable_title('grib2/4.10.table',typeOfStatisticalProcessing): read_only;
+
+#  Type of time increment between successive fields used in the statistical processing
+codetable[1]  typeOfTimeIncrement 'grib2/4.11.table' = 2 : dump;
+alias typeOfTimeIncrementBetweenSuccessiveFieldsUsedInTheStatisticalProcessing=typeOfTimeIncrement;
+
+#  Indicator of unit of time for time range over which statistical processing is done
+codetable[1]  indicatorOfUnitForTimeRange 'grib2/4.4.table'=1 : dump;
+alias indicatorOfUnitOfTimeForTimeRangeOverWhichStatisticalProcessingIsDone = indicatorOfUnitOfTimeRange;
+
+#  Length of the time range over which statistical processing is done, in units defined by the previous octet
+unsigned[4] lengthOfTimeRange=0 : dump;
+alias lengthOfTheTimeRangeOverWhichStatisticalProcessingIsDone=lengthOfTimeRange;
+
+#  Indicator of unit of time for the increment between the successive fields used
+codetable[1]  indicatorOfUnitForTimeIncrement 'grib2/4.4.table'=255;
+alias indicatorOfUnitOfTimeForTheIncrementBetweenTheSuccessiveFieldsUsed= indicatorOfUnitForTimeIncrement;
+
+#  Time increment between successive fields, in units defined by the previous octet
+# NOTE 3 NOT FOUND
+unsigned[4] timeIncrementBetweenSuccessiveFields=0;
+
+#  As octets 50 to 61, next innermost step of processing
+# unsigned[12] asOctets50To61NextInnermostStepOfProcessing ;
+
+# Octets 74-nn : Additional time range specifications, included in accordance with the value of n. Contents as octets 50 to 61, repeated as necessary
+# ????          additional_time_range_specifications_included_in_accordance_with_the_value_of_n_contents_as_octets_50_to_61_repeated_as_necessary
+}
+
+if ( indicatorOfUnitOfTimeRange != 3 ) {
+meta startStepInHours g2step(forecastTime,indicatorOfUnitOfTimeRange) : dump;
+meta endStepInHours   g2end_step(
+  year,
+  month,
+  day,
+  hour,
+  minute,
+  second,
+
+  forecastTime,
+  indicatorOfUnitOfTimeRange,
+
+  yearOfEndOfOverallTimeInterval,
+  monthOfEndOfOverallTimeInterval,
+  dayOfEndOfOverallTimeInterval,
+  hourOfEndOfOverallTimeInterval,
+  minuteOfEndOfOverallTimeInterval,
+  secondOfEndOfOverallTimeInterval,
+
+
+  numberOfTimeRangeSpecificationsDescribingTheTimeIntervalsUsedToCalculateTheStatisticallyProcessedField,
+
+  typeOfTimeIncrementBetweenSuccessiveFieldsUsedInTheStatisticalProcessing,
+  indicatorOfUnitOfTimeForTimeRangeOverWhichStatisticalProcessingIsDone,
+  lengthOfTheTimeRangeOverWhichStatisticalProcessingIsDone,
+  indicatorOfUnitOfTimeForTheIncrementBetweenTheSuccessiveFieldsUsed,
+  timeIncrementBetweenSuccessiveFields
+) : dump;
+
+
+meta stepRange   g1marsstep(startStepInHours,endStepInHours,mytimeRangeIndicator) : read_only,dump,edition_specific;
+
+alias mars.startStep=startStepInHours;
+
+transient marsEndStep=endStepInHours;
+alias mars.endStep=marsEndStep;
+alias mars.step = endStepInHours;
+
+alias marsStep=endStepInHours;
+alias marsStartStep=startStepInHours;
+
+
+
+alias ls.stepRange = stepRange;
+}

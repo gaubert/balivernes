@@ -1,0 +1,101 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+# START 1/local.98.10 ----------------------------------------------------------------------
+# LOCAL 98 10
+#
+# localDefinitionTemplate_010
+# ---------------------------
+#
+# Description            Octet    Code    Ksec1    Count
+# -----------            -----    ----    -----    -----
+#localDefinitionNumber           41      I1      37      -
+#class                           42      I1      38      -
+#type                            43      I1      39      -
+#stream                          44      I2      40      -
+#experimentVersionNumber         46      A4      41      -
+#
+#number                          50      I1      42      -
+#total                           51      I1      43      -
+#centralClusterDefinition        52      I1      44      -
+#parameterIndicator              53      I1      45      -
+#levelIndicator                  54      I1      46      -
+#northLatitudeOfDomainOfTubing   55      S3      47      -
+#westLongitudeOfDomainOfTubing   58      S3      48      -
+#southLatitudeOfDomainOfTubing   61      S3      49      -
+#eastLongitudeOfDomainOfTubing   64      S3      50      -
+#numberOfOperationalForecastTube 67      I1      51      -
+#numberOfControlForecastTube     68      I1      52      -
+#heightOrPressureOfLevel         69      I2      53      -
+#referenceStep                   71      I2      54      -
+#radiusOfCentralCluster          73      I2      55      -
+#ensembleStandardDeviation       75      I2      56      -
+#distanceFromTubeToEnsembleMean  77      I2      57      -
+#numberOfForecastsInTube         79      I1      58      -
+#ensembleForecastNumbers         80      LP_I1   59      numberOfForecastsInTube
+#spareToEnsureFixedLength        -       PADTO   n/a     334
+#
+
+template mars_labeling "grib1/mars_labeling.def";
+
+unsigned[1] tubeNumber  : dump;
+alias mars.number = tubeNumber;
+
+unsigned[1] totalNumberOfTubes  : dump;
+unsigned[1] centralClusterDefinition  : dump;
+
+unsigned[1] parameterIndicator  : dump;
+alias indicatorOfParameter = parameterIndicator;
+
+unsigned[1] levelIndicator  : dump;
+alias indicatorOfTypeOfLevelConsidered = levelIndicator;
+
+signed[3] northLatitudeOfDomainOfTubing  : dump;
+alias  northernLatitudeOfTheDomainOfTubing = northLatitudeOfDomainOfTubing ;
+
+signed[3] westLongitudeOfDomainOfTubing  : dump;
+alias westernLongitudeOfTheDomainOfTubing = westLongitudeOfDomainOfTubing ;
+
+signed[3] southLatitudeOfDomainOfTubing  : dump;
+alias southernLatitudeOfTheDomainOfTubing = southLatitudeOfDomainOfTubing ;
+
+signed[3] eastLongitudeOfDomainOfTubing  : dump;
+alias easternLongitudeOfTheDomainOfTubing = eastLongitudeOfDomainOfTubing ;
+
+unsigned[1] numberOfOperationalForecastTube  : dump;
+alias numberOfTubeToWhichTheOperationalForecastBelongs = numberOfOperationalForecastTube ;
+
+unsigned[1] numberOfControlForecastTube  : dump;
+alias numberOfTubeToWhichTheControlForecastBelongs = numberOfControlForecastTube ;
+
+unsigned[2] heightOrPressureOfLevel  : dump;
+alias heightOrPressureOfLevelConsidered =  heightOrPressureOfLevel ;
+
+unsigned[2] referenceStep  : dump;
+alias referenceStepConsidered = referenceStep;
+alias mars.reference = referenceStep;
+
+unsigned[2] radiusOfCentralCluster  : dump;
+
+unsigned[2] ensembleStandardDeviation  : dump;
+
+unsigned[2] distanceFromTubeToEnsembleMean  : dump;
+alias distanceOfTheTubeExtremeToTheEnsembleMean =  distanceFromTubeToEnsembleMean ;
+
+unsigned[1] numberOfForecastsInTube  : dump;
+alias numberOfForecastsBelongingToTheTubeOrCentralCluster =  numberOfForecastsInTube ;
+
+unsigned[1] ensembleForecastNumbers[numberOfForecastsInTube] : dump;
+
+# spareToEnsureFixedLength
+padto padding_loc10_1(offsetSection1 + 334);
+
+meta domain g1domain(northLatitudeOfDomainOfTubing,westLongitudeOfDomainOfTubing,southLatitudeOfDomainOfTubing,eastLongitudeOfDomainOfTubing)  : dump;
+alias mars.domain = domain;
+
+# END   1/local.98.10 ----------------------------------------------------------------------

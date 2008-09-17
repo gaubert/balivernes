@@ -1,0 +1,115 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# For grib1 -> grib2
+# For now, we do simple packing...
+constant dataRepresentationTemplateNumber = 0;
+
+# not implemented : complex packing
+unsigned [2] N1;
+flags[1] extendedFlag "grib1/11-2.table";
+
+flagbit matrixOfValues              (extendedFlag,6) = 0  : dump;
+flagbit secondaryBitmapPresent      (extendedFlag,5) = 0  : dump;
+flagbit secondOrderOfDifferentWidth (extendedFlag,4) = 0  : dump;
+flagbit generalExtended2ordr        (extendedFlag,3) = 0  : dump;
+flagbit boustrophedonicOrdering     (extendedFlag,2) = 0  : dump;
+flagbit twoOrdersOfSPD              (extendedFlag,1) = 0  : dump;
+flagbit plusOneinOrdersOfSPD        (extendedFlag,0) = 0  : dump;
+
+alias secondOrderOFDifferentWidth = secondOrderOfDifferentWidth;
+alias secondaryBitMap = secondaryBitmapPresent;
+
+unsigned [2] N2 : dump;
+unsigned [2] numberOfFirstOrderPackedValues : dump;
+unsigned [2] numberOfSecondOrderPackedValues : dump;
+# used to extend
+unsigned [1] reserved=0 : hidden, edition_specific;
+
+unsigned [1] widthOfWidths : dump;
+unsigned [1] widthOfLengths : dump;
+unsigned [2] octetNrOfStartGroup : dump;
+unsigned [1] widthOfSpatialDifferencingSpecificDescriptors : dump;
+
+position offsetBeforeData;
+
+if(bitmapPresent)   {
+   meta codedValues data_2order_packing(
+     section4Length,
+     offsetBeforeData,
+     offsetSection4,
+
+     nbp,
+     referenceValue,
+     binaryScaleFactor,
+     decimalScaleFactor,
+
+     halfByte,
+     N1,
+     N2,
+     numberOfFirstOrderPackedValues,
+     numberOfSecondOrderPackedValues,
+
+     matrixOfValues,
+     secondaryBitMap,
+     secondOrderOfDifferentWidth,
+
+     generalExtended2ordr      ,
+     boustrophedonicOrdering   ,
+     twoOrdersOfSPD            ,
+     plusOneinOrdersOfSPD      ,
+
+     widthOfWidths,
+     widthOfLengths,
+     octetNrOfStartGroup,
+     widthOfSpatialDifferencingSpecificDescriptors,
+
+     numberOfPointsAlongAParallel
+
+   ): read_only;
+
+   meta values data_apply_bitmap(codedValues,bitmap,missingValue) : dump;
+} else {
+   meta values data_2order_packing(
+    section4Length,
+    offsetBeforeData,
+    offsetSection4,
+
+    nbp,
+    referenceValue,
+    binaryScaleFactor,
+    decimalScaleFactor,
+    halfByte,
+
+    N1,
+    N2,
+    numberOfFirstOrderPackedValues,
+    numberOfSecondOrderPackedValues,
+
+    matrixOfValues,
+    secondaryBitMap,
+    secondOrderOfDifferentWidth,
+
+
+    generalExtended2ordr      ,
+    boustrophedonicOrdering   ,
+    twoOrdersOfSPD            ,
+    plusOneinOrdersOfSPD      ,
+
+    widthOfWidths,
+    widthOfLengths,
+    octetNrOfStartGroup,
+    widthOfSpatialDifferencingSpecificDescriptors,
+
+    numberOfPointsAlongAParallel
+   ) : dump;
+}
+
+transient numberOfCodedValues
+     =numberOfFirstOrderPackedValues+numberOfSecondOrderPackedValues;
+
+

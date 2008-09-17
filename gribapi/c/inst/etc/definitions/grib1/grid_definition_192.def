@@ -1,0 +1,30 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/grid_definition ocean ----------------------------------------------------------------------
+# GRID DEFINITION ocean ECMWF convention
+
+unsigned[2] numberOfPointsAlongFirstAxis  : dump;
+unsigned[2] numberOfPointsAlongSecondAxis  : dump;
+
+alias geography.Ni = numberOfPointsAlongFirstAxis;
+alias geography.Nj = numberOfPointsAlongSecondAxis;
+
+#  La1 - latitude of first grid point
+signed[3] latitudeOfFirstGridPoint :  edition_specific;
+meta latitudeOfFirstGridPointInDegrees scale(latitudeOfFirstGridPoint,oneConstant,grib1divider) : dump;
+alias La1 = latitudeOfFirstGridPoint;
+
+include "scanning_mode.def";
+
+meta numberOfDataPoints number_of_points(Ni,Nj,PLPresent,pl) : dump;
+alias numberOfPoints=numberOfDataPoints;
+meta numberOfValues number_of_values(values,bitsPerValue,numberOfDataPoints,bitmapPresent,bitmap,numberOfCodedValues) : dump;
+alias ls.valuesCount=numberOfValues;
+
+
+# END   1/grid_definition.ECMWF OCEAN ----------------------------------------------------------------------

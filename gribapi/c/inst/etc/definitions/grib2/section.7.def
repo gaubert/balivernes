@@ -1,0 +1,48 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "grib 2 Section 7 data";
+# START grib2::section
+# SECTION 7, DATA SECTION
+#  Length of section in octets
+# (nn)
+
+position offsetOfSection;
+position offsetOfSection7;
+
+length[4] section7Length ;
+
+#  Number of section
+unsigned[1] numberOfSection = 7:read_only;
+
+# Octets 6-nn : Data in a format described by Data Template 7.x, where x is the Data Representation
+# Template number given in octets 10-11 of Section 5
+trigger(dataRepresentationTemplateNumber) {
+  position offsetBeforeData;
+  template dataValues "grib2/template.7.[dataRepresentationTemplateNumber:l].def";
+  meta values data_apply_bitmap(codedValues,bitmap,missingValue,numberOfDataPoints) : dump;
+}
+
+meta setDecimalPrecision decimal_precision(values,bitsPerValue,decimalScaleFactor)  : edition_specific;
+
+meta getNumberOfValues size(values) : edition_specific,dump ;
+alias ls.valuesCount=getNumberOfValues;
+
+trigger (values) {
+  meta dirty_statistics dirty(statistics);
+}
+
+meta computeStatistics statistics(missingValue,values);
+
+meta max vector(computeStatistics,0) : dump;
+meta min vector(computeStatistics,1) : dump;
+meta average vector(computeStatistics,2) : dump;
+meta numberOfMissing vector(computeStatistics,3) : dump;
+alias numberOfMissingValues=numberOfMissing;
+
+# END   grib2::section
+

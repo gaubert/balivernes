@@ -1,0 +1,75 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# For grib1 -> grib2
+constant gridDefinitionTemplateNumber     = 40;
+
+
+
+# START 1/grid_definition.gaussian_latitude_longitude_grid ----------------------------------------------------------------------
+# GRID DEFINITION Gaussian latitude/longitude grid  = including rotated, stretched, or stretched and rotated)
+#  Ni - number of points along a parallel
+unsigned[2] numberOfPointsAlongAParallel : can_be_missing,dump;
+
+
+#  Nj - number of points along a meridian
+unsigned[2] numberOfPointsAlongAMeridian : dump;
+
+# Latitudes and Longitudes of the first and the last points
+# Resolution and component flags
+include "grid_first_last_resandcomp.def";
+
+#  Di - i direction increment
+unsigned[2] iDirectionIncrement : can_be_missing,dump;
+meta iDirectionIncrementInDegrees scale(iDirectionIncrement,oneConstant,grib1divider) : can_be_missing,dump;
+alias Di = iDirectionIncrement;
+
+#  N - number of parallels between a pole and the equator
+unsigned[2] numberOfParallelsBetweenAPoleAndTheEquator : dump ;
+
+include "scanning_mode.def";
+
+#  Set to zero
+#  = reserved
+pad padding_grid4_1(4);
+
+alias geography.laFirst = latitudeOfFirstGridPointInDegrees;
+alias geography.loFirst = longitudeOfFirstGridPointInDegrees;
+alias geography.laLast = latitudeOfLastGridPointInDegrees;
+alias geography.loLast = longitudeOfLastGridPointInDegrees;
+alias geography.iInc = iDirectionIncrementInDegrees;
+alias geography.Nj = numberOfPointsAlongAMeridian;
+alias geography.Ni = numberOfPointsAlongAParallel;
+
+when (missing(numberOfPointsAlongAParallel)) {
+       set PLPresent = 1;
+}
+
+meta numberOfDataPoints number_of_points_gaussian(Ni,Nj,PLPresent,pl,
+  numberOfParallelsBetweenAPoleAndTheEquator,
+  latitudeOfFirstGridPointInDegrees,longitudeOfFirstGridPointInDegrees,
+  latitudeOfLastGridPointInDegrees,longitudeOfLastGridPointInDegrees) : dump;
+
+alias numberOfPoints=numberOfDataPoints;
+meta numberOfValues number_of_values(values,bitsPerValue,numberOfDataPoints,bitmapPresent,bitmap,numberOfCodedValues) : dump;
+alias ls.valuesCount=numberOfValues;
+
+if(missing(numberOfPointsAlongAParallel)){
+   iterator gaussian_reduced(missingValue,values,
+       latitudeOfFirstGridPointInDegrees,longitudeOfFirstGridPointInDegrees,
+       latitudeOfLastGridPointInDegrees,longitudeOfLastGridPointInDegrees,
+       numberOfParallelsBetweenAPoleAndTheEquator,pl,Nj);
+   nearest reduced(values,Nj,pl);
+} else {
+   iterator   gaussian(missingValue,values,loFirst,iInc  ,Ni   ,Nj,iScansNegatively ,
+            laFirst, laLast,
+            numberOfParallelsBetweenAPoleAndTheEquator,jScansPositively);
+   nearest regular(values,Ni,Nj);
+}
+
+
+# END   1/grid_definition.gaussian_latitude_longitude_grid ----------------------------------------------------------------------

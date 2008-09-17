@@ -1,0 +1,47 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+# START 2/template.7.51 ----------------------------------------------------------------------
+# TEMPLATE 7.51, Spherical harmonics - complex packing
+# Octets 6-(5+I*TS) : Data values from the unpacked subset
+# (IEEE floating-point values on I octets)
+# ????          data_values_from_the_unpacked_subset
+
+# END   2/template.7.51 ----------------------------------------------------------------------
+constant GRIBEXShBugPresent = 0;
+constant sphericalHarmonics = 1;
+constant complexPacking = 1;
+
+    meta codedValues data_g2complex_packing(
+              section7Length,
+              offsetBeforeData,
+              offsetOfSection,
+
+              numberOfValues,
+              numberOfBitsContainingEachPackedValue,
+              referenceValue,
+              binaryScaleFactor,
+              decimalScaleFactor,
+
+              GRIBEXShBugPresent,
+              ieeeFloats,
+
+              laplacianOperatorIsSet,
+              laplacianOperator,
+
+              subSetJ,
+              subSetK,
+              subSetM,
+
+              pentagonalResolutionParameterJ,
+              pentagonalResolutionParameterK,
+              pentagonalResolutionParameterM,
+
+              numberOfValues
+         ): read_only;
+# END   grib::edition

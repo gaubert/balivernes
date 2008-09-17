@@ -1,0 +1,76 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local.98.23 ----------------------------------------------------------------------
+# LOCAL 98 23
+#
+# localDefinitionTemplate_023
+# ---------------------------
+#
+# Description            Octet    Code    Ksec1    Count
+# -----------            -----    ----    -----    -----
+#localDefinitionNumber       41  I1  37  -
+#class                       42  I1  38  -
+#type                        43  I1  39  -
+#stream                      44  I2  40  -
+#experimentVersionNumber     46  A4  41  -
+#ensembleNumber              50  I2  42  -
+#totalNumber                 81  I2  43  -
+#systemNumber                52  I2  44  -
+#methodNumber                54  I2  45  -
+#verifyingMonth              56  I4  46  -
+#averagingPeriod             60  I1  47  -
+#forecastMonth               61  I2  48  -
+#referenceDate               63  I4  49  -
+#climateDateFrom             67  I4  50  -
+#climateDateTo               71  I4  51  -
+#unitsDecimalScaleFactor     75  S1  52  -
+#thresholdIndicator          76  I1  53  -
+#lowerThresholdValue         77  I2  54  -
+#upperThresholdValue         79  I2  55  -
+#spareSetToZero              83  PAD 56  2
+#
+
+template mars_labeling "grib1/mars_labeling.def";
+
+unsigned[2] perturbationNumber  : dump;
+alias mars.number = perturbationNumber;
+
+unsigned[2] systemNumber  : dump;
+alias mars.system = systemNumber;
+
+unsigned[2] methodNumber  : dump;
+alias mars.method = methodNumber;
+
+unsigned[4] verifyingMonth : dump;
+
+unsigned[1] averagingPeriod : dump ;
+
+unsigned[2] forecastMonth : dump ;
+
+unsigned[4] referenceDate  : dump;
+alias mars.refdate = referenceDate;
+
+unsigned[4] climateDateFrom  : dump;
+
+unsigned[4] climateDateTo : dump;
+
+signed[1] unitsDecimalScaleFactor  : dump;
+
+unsigned[1] thresholdIndicator  : dump;
+
+unsigned[2] lowerThresholdValue  : dump;
+
+unsigned[2] upperThresholdValue  : dump;
+
+#spareSetToZero
+pad padding_loc23_1(2);
+
+template local_labeling "grib1/mars_labeling.23.def";
+
+# END   1/local.98.23 ----------------------------------------------------------------------
+

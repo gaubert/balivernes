@@ -1,0 +1,64 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+include "template.3.grid.def";
+
+#  Di - i direction increment
+
+unsigned[4] iDirectionIncrement : can_be_missing;
+alias Di =  iDirectionIncrement;
+
+#  Dj - j direction increment
+
+unsigned[4] jDirectionIncrement : can_be_missing;
+alias Dj =  jDirectionIncrement;
+
+include "template.3.scanning_mode.def";
+
+meta g2grid g2grid(
+  latitudeOfFirstGridPoint,
+  longitudeOfFirstGridPoint,
+  latitudeOfLastGridPoint,
+  longitudeOfLastGridPoint,
+  iDirectionIncrement,
+  jDirectionIncrement,
+  basicAngleOfTheInitialProductionDomain,
+  subdivisionsOfBasicAngle
+  );
+
+meta      latitudeOfFirstGridPointInDegrees    g2latlon(g2grid,0) : dump;
+meta      longitudeOfFirstGridPointInDegrees   g2latlon(g2grid,1) : dump;
+meta      latitudeOfLastGridPointInDegrees     g2latlon(g2grid,2) : dump;
+meta      longitudeOfLastGridPointInDegrees    g2latlon(g2grid,3) : dump;
+
+meta iDirectionIncrementInDegrees    g2latlon(g2grid,4,
+  iDirectionIncrementGiven) : can_be_missing,dump;
+
+meta jDirectionIncrementInDegrees    g2latlon(g2grid,5,
+  jDirectionIncrementGiven) : can_be_missing,dump;
+
+alias geography.laFirst = latitudeOfFirstGridPointInDegrees;
+alias geography.loFirst = longitudeOfFirstGridPointInDegrees;
+alias geography.laLast = latitudeOfLastGridPointInDegrees;
+alias geography.loLast = longitudeOfLastGridPointInDegrees;
+alias geography.iInc = iDirectionIncrementInDegrees;
+alias geography.jInc = jDirectionIncrementInDegrees;
+alias geography.gridWestEast = iDirectionIncrementInDegrees;
+alias geography.gridNorthSouth = jDirectionIncrementInDegrees;
+
+
+#if (scanningMode == 0 ) {
+if ( missing(numberOfPointsAlongAParallel) && PLPresent == 1 ) {
+  iterator latlon_reduced(missingValue,values,laFirst,loFirst,laLast,loLast,
+      Nj,jInc,pl);
+  nearest reduced(values,Nj,pl);
+} else {
+  iterator latlon(missingValue,values,loFirst,iInc  ,Ni   ,Nj,iScansNegatively,
+                  laFirst, jInc,jScansPositively);
+  nearest regular(values,Ni   ,Nj);
+}
+#}

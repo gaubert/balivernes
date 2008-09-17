@@ -1,0 +1,28 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+if(stream == 1206 ||  # mnfm
+   stream == 1207 ||  # mfhm
+   stream == 1208 ||  # mfam
+   stream == 1209 ||  # mfwm
+   stream == 1210 ||  # mhwm
+   stream == 1211)     # mawm
+{
+    meta   forecastperiod    g1fcperiod(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange);
+	alias mars.fcperiod = forecastperiod;
+#	remove step;
+}
+
+if(type == 29 ||  # pb
+   type == 36)    # pd
+{
+	meta marsQuantile sprintf("%d:%d",perturbationNumber,numberOfForecastsInEnsemble);
+	alias mars.quantile = marsQuantile;
+#	remove number;
+}
+
+

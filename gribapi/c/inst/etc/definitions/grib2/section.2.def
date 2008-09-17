@@ -1,0 +1,40 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START grib2::section
+# SECTION 2, LOCAL SECTION USE
+#  Length of section in octets
+# (nn)
+position offsetSection2;
+length[4] section2Length ;
+
+#  Number of section
+unsigned[1] numberOfSection = 2 :read_only;
+
+# Octets 6-nn : Local use
+# ????          local_use
+#if(section2Length > 5)
+#{
+#    constant localUsePresent "1";
+# if(section1.identificationOfOriginatingGeneratingCentre == 98)
+# {
+#   unsigned[1] localDefinitionNumber ;
+#   template  localDefinition  "grib1/local.[identificationOfOriginatingGeneratingCentre:l].[localDefinitionNumber:l].def";
+# }
+# else
+# {
+#   template defaultMarsLabeling "mars/default_labeling.def";
+#    }
+#}
+#else
+#{
+#   constant localUsePresent "0";
+#   template defaultMarsLabeling "mars/default_labeling.def";
+#}
+#
+# END   grib2::section
+

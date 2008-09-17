@@ -1,0 +1,33 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# For grib2 to grib1 convertion
+constant dataRepresentationType = 90;
+
+
+# START 2/template.4.30 ----------------------------------------------------------------------
+# TEMPLATE 4.30, Satellite Product
+#  Parameter category
+codetable[1] parameterCategory 'grib2/4.1.[discipline:l].table' : dump;
+
+#  Parameter number
+codetable[1] parameterNumber 'grib2/4.2.[discipline:l].[parameterCategory:l].table' : dump;
+meta parameterUnits codetable_units('grib2/4.2.[discipline:l].[parameterCategory:l].table',parameterNumber) : dump;
+meta parameterName codetable_title('grib2/4.2.[discipline:l].[parameterCategory:l].table',parameterNumber) : dump;
+#  Type of generating process
+codetable[1] typeOfGeneratingProcess 'grib2/4.3.table' : dump;
+
+#  Observation generating process identifier
+# (defined by originating Centres)
+unsigned[1] observationGeneratingProcessIdentifier  : dump;
+
+#  Number of contributing spectral bands
+# (NB)
+unsigned[1] numberOfContributingSpectralBands  : dump;
+
+
+# END   2/template.4.30 ----------------------------------------------------------------------

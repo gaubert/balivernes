@@ -1,0 +1,106 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 1/local.98.16 ---------------------------------------------------------------------
+# LOCAL 98 16
+#
+# localDefinitionTemplate_016
+# ---------------------------
+#
+# Description            Octet    Code    Ksec1    Count
+# -----------            -----    ----    -----    -----
+#localDefinitionNumber           41      I1      37      -
+#class                           42      I1      38      -
+#type                            43      I1      39      -
+#stream                          44      I2      40      -
+#experimentVersionNumber         46      A4      41      -
+#number                          50      I2      42      -
+#zero                            n/a     PAD     43      1
+#systemNumber                    52      I2      44      -
+#methodNumber                    54      I2      45      -
+#verifyingMonth                  56      I4      46      -
+#averagingPeriod                 60      I1      47      -
+#forecastMonth                   61      I2      48      -
+#spareSetToZero                  63      PAD     n/a     18
+#
+
+# ------------------- From section 1
+alias mars.origin = identificationOfOriginatingGeneratingCentre;
+# ------------------- End of section 1
+
+template mars_labeling "grib1/mars_labeling.def";
+
+unsigned[2] perturbationNumber : dump ;
+alias mars.number = perturbationNumber;
+
+# zero
+
+unsigned[2] systemNumber : dump ;
+alias mars.system = systemNumber;
+
+unsigned[2] methodNumber : dump ;
+alias mars.method = methodNumber;
+
+unsigned[4] verifyingMonth : dump ;
+
+meta endOfInterval g1end_of_interval_monthly(verifyingMonth);
+
+meta yearOfEndOfOverallTimeInterval   vector(endOfInterval,0);
+meta monthOfEndOfOverallTimeInterval   vector(endOfInterval,1);
+meta dayOfEndOfOverallTimeInterval   vector(endOfInterval,2);
+#meta hourOfEndOfOverallTimeInterval   vector(endOfInterval,3);
+#meta minuteOfEndOfOverallTimeInterval   vector(endOfInterval,4);
+#meta secondOfEndOfOverallTimeInterval   vector(endOfInterval,5);
+
+transient hourOfEndOfOverallTimeInterval=23;
+transient minuteOfEndOfOverallTimeInterval=59;
+transient secondOfEndOfOverallTimeInterval=59;
+
+transient indicatorOfUnitForTimeRange=3;
+transient lengthOfTimeRange=1;
+unsigned[1] averagingPeriod : dump ;
+
+transient typeOfStatisticalProcessing=0;
+transient indicatorOfUnitForTimeIncrement = 1;
+transient timeIncrementBetweenSuccessiveFields=averagingPeriod;
+
+unsigned[2] forecastMonth : dump ;
+remove forecastTime;
+transient forecastTime=forecastMonth - 1;
+remove typeOfTimeIncrement;
+transient typeOfTimeIncrement = 3;
+
+# Old GRIBS do not have forecast forecastMonth set. It is computed from verifyingMonth
+meta marsForecastMonth g1forecastmonth(verifyingMonth,dataDate,day,hour,forecastMonth) : read_only;
+alias mars.fcmonth = marsForecastMonth;
+
+# Old monthly forecast streams set fcperiod in verifyingMonth
+constant streamMonthlyForecastMeans     = 1094;
+constant streamWaveMonthlyForecastMeans = 1096;
+if(marsStream == streamMonthlyForecastMeans or marsStream == streamWaveMonthlyForecastMeans)
+{
+  meta forecastPeriodFrom evaluate(verifyingMonth/1000);
+  meta forecastPeriodTo   evaluate(verifyingMonth%1000);
+  meta forecastPeriod     sprintf("%d-%d",forecastPeriodFrom,forecastPeriodTo) : dump;
+  alias mars.fcperiod = forecastPeriod;
+
+  meta startStep evaluate(forecastPeriodFrom*24);
+  meta endStep   evaluate(forecastPeriodTo*24);
+
+  alias mars.startStep = startStep;
+  alias mars.endStep = endStep;
+}
+
+# removing the mars.step brokes section1 for the verificationDate
+#  TODO fix
+#remove mars.step;
+
+# spareSetToZero
+pad padding_loc16_1(18);
+
+
+# END   1/local.98.16 ----------------------------------------------------------------------

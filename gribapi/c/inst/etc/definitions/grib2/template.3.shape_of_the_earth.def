@@ -1,0 +1,29 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Shape of the earth";
+
+codetable[1] shapeOfTheEarth 'grib2/3.2.table' : dump;
+
+#  Scale factor of radius of spherical earth
+unsigned[1] scaleFactorOfRadiusOfSphericalEarth = missing() : can_be_missing, edition_specific;
+
+#  Scaled value of radius of spherical earth
+unsigned[4] scaledValueOfRadiusOfSphericalEarth = missing(): can_be_missing, edition_specific;
+
+#  Scale factor of major axis of oblate spheroid earth
+unsigned[1] scaleFactorOfMajorAxisOfOblateSpheroidEarth = missing(): can_be_missing, edition_specific;
+
+#  Scaled value of major axis of oblate spheroid earth
+unsigned[4] scaledValueOfMajorAxisOfOblateSpheroidEarth = missing(): can_be_missing, edition_specific;
+
+#  Scale factor of minor axis of oblate spheroid earth
+unsigned[1] scaleFactorOfMinorAxisOfOblateSpheroidEarth = missing(): can_be_missing, edition_specific;
+
+#  Scaled value of minor axis of oblate spheroid earth
+unsigned[4] scaledValueOfMinorAxisOfOblateSpheroidEarth = missing(): can_be_missing, edition_specific;
+

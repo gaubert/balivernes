@@ -1,0 +1,23 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+constant timeRangeIndicator = 0;
+if ( indicatorOfUnitOfTimeRange!=3 ) {
+  meta startStepInHours  g1startstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+  meta endStepInHours    g1endstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+  meta stepInHours       g1step(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange) : dump;
+  meta stepRange          g1marsstep(startStepInHours,endStepInHours,timeRangeIndicator) : dump,edition_specific;
+
+alias mars.step = stepInHours;
+alias ls.step=stepRange;
+alias mars.startStep = startStepInHours ;
+alias marsStartStep=startStepInHours;
+alias mars.endStep = endStepInHours ;
+alias marsEndStep = endStepInHours ;
+}
+
+

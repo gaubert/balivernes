@@ -1,0 +1,26 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Rotation information";
+
+#  Latitude of the southern pole of projection
+signed[4] latitudeOfTheSouthernPoleOfProjection;
+alias latitudeOfSouthernPole=latitudeOfTheSouthernPoleOfProjection;
+
+#  Longitude of the southern pole of projection
+unsigned[4] longitudeOfTheSouthernPoleOfProjection;
+alias longitudeOfSouthernPole=longitudeOfTheSouthernPoleOfProjection;
+
+meta  latitudeOfSouthernPoleInDegrees   scale(latitudeOfSouthernPole
+                                                 ,one,grib2divider) : dump;
+meta  longitudeOfSouthernPoleInDegrees   scale(longitudeOfSouthernPole
+                                                 ,oneConstant,grib2divider) : dump;
+
+#  Angle of rotation of projection
+signed[4] angleOfRotationOfProjection : dump ;
+alias angleOfRotationOfProjectionInDegrees=angleOfRotationOfProjection;
+

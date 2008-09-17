@@ -1,0 +1,63 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+length[3] section4Length ;
+
+unsigned[1] reserved=0 : hidden;
+
+flags[1] missingDataFlag 'grib1/1.table';
+
+unsigned[1] numberOfBytesPerInteger ;
+
+unsigned[2] reserved=0 : hidden ;
+
+unsigned[3] numberOfChars ;
+
+unsigned[3] numberOfFloats ;
+
+unsigned[3] numberOfInts ;
+
+unsigned[3] numberOfLogicals ;
+
+unsigned[3] numberOfReservedBytes ;
+
+unsigned[4] reserved=0 : hidden;
+unsigned[4] reserved=0 : hidden;
+unsigned[1] reserved=0 : hidden;
+
+floatValues list (numberOfFloats){
+         ibmfloat floatVal;
+       }
+
+if(numberOfBytesPerInteger == 1){
+     integerValues list (numberOfInts){
+         signed[1] int;
+       }
+}
+if(numberOfBytesPerInteger == 2){
+     integerValues list (numberOfInts){
+         signed[2] int;
+       }
+}
+if(numberOfBytesPerInteger == 3){
+     integerValues list (numberOfInts){
+         signed[3] int;
+       }
+}
+if(numberOfBytesPerInteger == 4){
+     integerValues list (numberOfInts){
+         signed[4] int;
+       }
+}
+charValues list (numberOfChars){
+         ascii[1] char;
+       }
+
+#reservedBytes list (numberOfReservedBytes){
+#          unsigned[1] byte;
+#       }
+

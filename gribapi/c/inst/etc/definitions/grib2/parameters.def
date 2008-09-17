@@ -1,0 +1,158 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+
+
+######################################################
+
+#
+# ugly code (tigge)
+#
+# concept marsClass {
+
+#   od, "0" = {
+#     productionStatusOfProcessedData = 0;
+#     marsExpver = "0001";
+#   }
+
+#   rd, "2" = {
+#     productionStatusOfProcessedData = 2;
+#   }
+
+# }
+
+if(productionStatusOfProcessedData == 0)
+{
+  constant marsExpver = "0001";
+  template tigge "grib2/od.def";
+alias mars.expver = marsExpver;
+alias mars.class  = marsClass;
+alias mars.param = parameter;
+}
+
+if(productionStatusOfProcessedData == 4)
+{
+  constant marsExpver = "prod";
+  template tigge "grib2/tigge.def";
+alias mars.expver = marsExpver;
+alias mars.class  = marsClass;
+alias mars.param = parameter;
+}
+
+if(productionStatusOfProcessedData == 5)
+{
+  constant marsExpver = "test";
+  template tigge "grib2/tigge.def";
+alias mars.expver = marsExpver;
+alias mars.class  = marsClass;
+alias mars.param = parameter;
+}
+
+
+#
+# End of ugly code
+#
+
+
+concept marsType {
+
+    an, "2" = {
+      typeOfProcessedData = 0;
+    }
+
+    fc, "9" = {
+      typeOfProcessedData = 2;
+    }
+
+    cf, "10" = {
+      typeOfProcessedData = 3;
+    }
+
+    pf, "11" = {
+      typeOfProcessedData = 4;
+    }
+
+    ep, "30" = {
+      typeOfProcessedData = 8;
+    }
+
+    fcmean, "80" = {
+      typeOfStatisticalProcessing=0;
+      typeOfProcessedData=5;
+    }
+
+#    em, "17" = {
+#      productDefinitionTemplateNumber=12;
+#      derivedForecast=0;
+#    }
+
+
+}
+
+#if(productionStatusOfProcessedData != 4 && productionStatusOfProcessedData != 5)
+#{
+concept marsStream {
+
+    oper = {
+      typeOfProcessedData = 0;
+    }
+
+    oper = {
+      typeOfProcessedData = 2;
+    }
+
+    wave = {
+      discipline=10;
+      typeOfProcessedData = 0;
+    }
+
+    wave = {
+      discipline=10;
+      typeOfProcessedData = 2;
+    }
+
+    enfo = {
+      typeOfProcessedData = 3;
+    }
+
+    enfo = {
+      typeOfProcessedData = 4;
+    }
+
+    enfo = {
+      typeOfProcessedData = 8;
+    }
+
+    waef = {
+      discipline=10;
+      typeOfProcessedData = 3;
+    }
+
+    waefs = {
+      discipline=10;
+      typeOfProcessedData = 4;
+    }
+
+    mmsa = {
+      typeOfStatisticalProcessing=0;
+      indicatorOfUnitForTimeRange=3;
+      lengthOfTimeRange=1;
+      productDefinitionTemplateNumber=11;
+    }
+
+}
+
+alias mars.stream = marsStream;
+#}
+
+alias mars.type   = marsType;
+
+# meta marsParam sprintf("%d.%d",parameterCategory,parameterNumber);
+
+
+alias mars.origin = identificationOfOriginatingGeneratingCentre;

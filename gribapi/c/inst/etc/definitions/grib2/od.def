@@ -1,0 +1,21 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+constant marsClass = 'od';
+constant marsModel = 'glob';
+
+alias mars.model = marsModel;
+
+concept parameter "grib2/tigge_parameter.def";
+
+concept tigge_short_name "grib2/tigge_short_name.def";
+alias ls.short_name=tigge_short_name;
+
+concept tigge_name "grib2/tigge_name.def";
+alias name=tigge_name;
+

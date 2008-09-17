@@ -1,0 +1,24 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 2/template.7.4 ----------------------------------------------------------------------
+# TEMPLATE 7.4, Grid point data - simple packing
+# Octets 6-nn : Binary data values - binary string, with each
+# (scaled)
+# ????          data_values__binary_string_with_each
+
+constant compression=0 : hidden;
+
+meta   codedValues data_raw_packing(
+              section7Length,
+              offsetBeforeData,
+              offsetOfSection,
+              numberOfValues,
+              precision,
+              compression
+            ): read_only;
+# END   2/template.7.4 ----------------------------------------------------------------------

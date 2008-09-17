@@ -1,0 +1,48 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Circular cluster";
+
+#  Cluster identifier
+unsigned[1] clusterIdentifier  : dump;
+
+#  Number of cluster to which the high resolution control belongs
+unsigned[1] numberOfClusterToWhichTheHighResolutionControlBelongs  : dump;
+
+#  Number of cluster to which the low resolution control belongs
+unsigned[1] numberOfClusterToWhichTheLowResolutionControlBelongs  : dump;
+
+#  Total number of clusters
+unsigned[1] totalNumberOfClusters  : dump;
+
+#  Clustering method
+codetable[1] clusteringMethod 'grib2/4.8.table' : dump;
+
+#  Latitude of central point in cluster domain
+unsigned[4] latitudeOfCentralPointInClusterDomain  : dump;
+
+#  Longitude of central point in cluster domain
+unsigned[4] longitudeOfCentralPointInClusterDomain  : dump;
+
+#  Radius of cluster domain
+unsigned[4] radiusOfClusterDomain : dump ;
+
+#  NC - Number of forecasts in the cluster
+unsigned[1] numberOfForecastsInTheCluster  : dump;
+
+alias NC  = numberOfForecastsInTheCluster;
+#  Scale factor of standard deviation in the cluster
+unsigned[1] scaleFactorOfStandardDeviationInTheCluster : dump ;
+
+#  Scaled value of standard deviation in the cluster
+unsigned[4] scaledValueOfStandardDeviationInTheCluster : dump ;
+
+#  Scale factor of distance of the cluster from ensemble mean
+unsigned[1] scaleFactorOfDistanceOfTheClusterFromEnsembleMean  : dump;
+
+#  Scaled value of distance of the cluster from ensemble mean
+unsigned[4] scaledValueOfDistanceOfTheClusterFromEnsembleMean  : dump;

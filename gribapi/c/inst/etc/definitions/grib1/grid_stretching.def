@@ -1,0 +1,16 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+signed[3] latitudeOfStretchingPoleInMillidegrees;
+signed[3] longitudeOfStretchingPoleInMillidegrees;
+
+meta  latitudeOfStretchingPoleInDegrees
+      scale(latitudeOfStretchingPoleInMillidegrees,oneConstant,grib1divider) : dump;
+meta  longitudeOfStretchingPoleInDegrees
+      scale(longitudeOfStretchingPoleInMillidegrees,oneConstant,grib1divider) : dump;
+ibmfloat stretchingFactor : dump;
+

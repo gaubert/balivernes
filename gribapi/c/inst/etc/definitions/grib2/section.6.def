@@ -1,0 +1,63 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "grib 2 Section 6 BIT-MAP SECTION";
+# START grib2::section
+# SECTION 6, BIT-MAP SECTION
+#  Length of section in octets
+# (nn)
+position offsetSection6;
+position offsetBSection6;
+
+length[4] section6Length ;
+
+#  Number of section
+unsigned[1] numberOfSection = 6:read_only;
+
+#  Bit-map indicator
+# NOTE 1 NOT FOUND
+codetable[1] bitMapIndicator 'grib2/6.0.table' = 255 : dump;
+
+
+constant bitmapPresent = (bitMapIndicator == 0 || bitMapIndicator == 254) : dump;
+
+#when (bitmapPresent == 1 and bmi != 254) set bitMapIndicator = 0;
+
+# transient missingValue  "9999";
+
+# Bitmap...
+if(bitMapIndicator == 0)
+{
+
+  if(dataRepresentationTemplateNumber == 1)
+  {
+    if(noMatrixBitMapsPresent1MatrixBitMapsPresent == 1)
+    {
+      meta primaryBitmap g2bitmap( tableReference,
+          missingValue,
+          offsetBSection6,
+          section6Length,
+          numberOfDataMatrices) : read_only;
+    }
+    else
+    {
+      meta bitmap g2bitmap( tableReference,
+          missingValue,
+          offsetBSection6,
+          section6Length,
+          numberOfDataPoints) : read_only;
+    }
+  }
+  else
+  {
+    meta bitmap g2bitmap( tableReference,
+        missingValue,
+        offsetBSection6,
+        section6Length,
+        numberOfDataPoints) : read_only;
+  }
+}

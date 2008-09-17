@@ -1,0 +1,68 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+# START 2/template.3.10 ----------------------------------------------------------------------
+# TEMPLATE 3.10, Mercator
+
+include "template.3.shape_of_the_earth.def";
+
+#  Ni - number of points along a parallel
+
+unsigned[4] numberOfPointsAlongAParallel : dump;
+alias fieldWidth = numberOfPointsAlongAParallel; # For jpeg and png
+alias Ni         = numberOfPointsAlongAParallel;
+
+
+#  Nj - number of points along a meridian
+unsigned[4] numberOfPointsAlongAMeridian : dump;
+alias fieldHeight = numberOfPointsAlongAMeridian; # For jpeg and png
+alias Nj          = numberOfPointsAlongAMeridian;
+
+#  La1 - latitude of first grid point
+signed[4] latitudeOfFirstGridPoint: edition_specific ;
+
+alias La1 =  latitudeOfFirstGridPoint;
+#  Lo1 - longitude of first grid point
+signed[4] longitudeOfFirstGridPoint : edition_specific;
+
+alias Lo1 =  longitudeOfFirstGridPoint;
+
+include "template.3.resolution_flags.def";
+
+#  LaD - Latitude(s) at which the Mercator projection intersects the Earth
+# (Latitude(s) where Di and Dj are specified)
+signed[4] latitudeSAtWhichTheMercatorProjectionIntersectsTheEarth ;
+
+alias LaD =  latitudeSAtWhichTheMercatorProjectionIntersectsTheEarth;
+#  La2 - latitude of last grid point
+signed[4] latitudeOfLastGridPoint : edition_specific;
+
+alias La2 =  latitudeOfLastGridPoint;
+#  Lo2 - longitude of last grid point
+signed[4] longitudeOfLastGridPoint: edition_specific ;
+
+alias Lo2 =  longitudeOfLastGridPoint;
+
+include "template.3.scanning_mode.def";
+
+#  Orientation of the grid, angle between i direction on the map and the equator
+# NOTE 1 NOT FOUND
+unsigned[4] orientationOfTheGridAngleBetweenIDirectionOnTheMapAndTheEquator : dump ;
+
+#  Di - longitudinal direction grid length
+# NOTE 2 NOT FOUND
+unsigned[4] longitudinalDirectionGridLength  : dump ;
+
+alias Di =  longitudinalDirectionGridLength;
+#  Dj - latitudinal direction grid length
+# NOTE 2 NOT FOUND
+unsigned[4] latitudinalDirectionGridLength : dump  ;
+
+alias Dj =  latitudinalDirectionGridLength;
+
+# END   2/template.3.10 ----------------------------------------------------------------------

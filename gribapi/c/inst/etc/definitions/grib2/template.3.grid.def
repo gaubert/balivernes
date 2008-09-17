@@ -1,0 +1,53 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "grid information";
+#  Ni - number of points along a parallel
+unsigned[4] numberOfPointsAlongAParallel : can_be_missing,dump;
+alias fieldWidth = numberOfPointsAlongAParallel; # For jpeg and png
+alias Ni         = numberOfPointsAlongAParallel;
+
+#  Nj - number of points along a meridian
+unsigned[4] numberOfPointsAlongAMeridian : dump;
+alias fieldHeight = numberOfPointsAlongAMeridian; # For jpeg and png
+alias Nj          = numberOfPointsAlongAMeridian;
+
+#  Basic angle of the initial production domain
+unsigned[4] basicAngleOfTheInitialProductionDomain = 0;
+if (basicAngleOfTheInitialProductionDomain == 0) {
+  alias angleMultiplier  = oneConstant;
+} else {
+  alias angleMultiplier  = basicAngleOfTheInitialProductionDomain;
+}
+
+#  Subdivisions of basic angle used to define extreme longitudes and latitudes, and direction increments
+unsigned[4] subdivisionsOfBasicAngle = missing() : can_be_missing;
+if (missing(subdivisionsOfBasicAngle) || subdivisionsOfBasicAngle == 0) {
+  alias angleDivisor  = oneMillionConstant;
+} else {
+  alias angleDivisor  = subdivisionsOfBasicAngle;
+}
+
+#  La1 - latitude of first grid point
+signed[4] latitudeOfFirstGridPoint : edition_specific ;
+alias La1  = latitudeOfFirstGridPoint;
+
+#  Lo1 - longitude of first grid point
+
+signed[4] longitudeOfFirstGridPoint ;
+alias Lo1  = longitudeOfFirstGridPoint;
+
+include "template.3.resolution_flags.def"
+
+#  La2 - latitude of last grid point
+signed[4] latitudeOfLastGridPoint :  edition_specific;
+alias La2 =  latitudeOfLastGridPoint;
+
+#  Lo2 - longitude of last grid point
+signed[4] longitudeOfLastGridPoint :  edition_specific ;
+alias Lo2 =  longitudeOfLastGridPoint;
+

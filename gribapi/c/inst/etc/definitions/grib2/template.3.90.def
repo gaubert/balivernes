@@ -1,0 +1,76 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+
+# START 2/template.3.90 ----------------------------------------------------------------------
+# TEMPLATE 3.90, Space view perspective or orthographic
+include "template.3.shape_of_the_earth.def";
+
+
+#  Nx - number of points along X-axis
+# (columns)
+unsigned[4] numberOfPointsAlongXAxis : dump ;
+
+#  Ny - number of points along Y-axis
+# (rows or lines)
+unsigned[4] numberOfPointsAlongYAxis : dump ;
+
+#  Lap - latitude of sub-satellite point
+signed[4] latitudeOfSubSatellitePoint ;
+
+#  Lop - longitude of sub-satellite point
+signed[4] longitudeOfSubSatellitePoint ;
+
+meta  latitudeOfSubSatellitePointInDegrees   scale(latitudeOfSubSatellitePoint
+                                                 ,one,grib2divider) : dump;
+meta  longitudeOfSubSatellitePointInDegrees   scale(longitudeOfSubSatellitePoint
+                                                 ,one,grib2divider) : dump;
+
+include "template.3.resolution_flags.def";
+
+#  dx - apparent diameter of Earth in grid lengths, in X-direction
+unsigned[4] apparentDiameterOfEarthInGridLengthsInXDirection  : dump;
+
+alias dx  = apparentDiameterOfEarthInGridLengthsInXDirection;
+#  dy - apparent diameter of Earth in grid lengths, in Y-direction
+unsigned[4] apparentDiameterOfEarthInGridLengthsInYDirection  : dump;
+
+alias dy  = apparentDiameterOfEarthInGridLengthsInYDirection;
+#  Xp - X-coordinate of sub-satellite point
+# (in units of 10-3 grid length expressed as an integer)
+unsigned[4] xCoordinateOfSubSatellitePoint  : dump;
+
+alias Xp =  xCoordinateOfSubSatellitePoint;
+#  Yp - Y-coordinate of sub-satellite point
+# (in units of 10-3 grid length expressed as an integer)
+unsigned[4] yCoordinateOfSubSatellitePoint  : dump;
+
+alias Yp =  yCoordinateOfSubSatellitePoint;
+
+include "template.3.scanning_mode.def";
+
+#  Orientation of the grid; i.e., the angle between the increasing Y-axis and the meridian of the sub-satellite point in the direction of increasing latitude
+# NOTE 3 NOT FOUND
+signed[4] orientationOfTheGrid : dump;
+
+#  Nr - altitude of the camera from the Earth's centre, measured in units of the Earth's
+# (equatorial)
+unsigned[4] altitudeOfTheCameraFromTheEarthSCenterMeasuredInUnitsOfTheEarth : dump;
+
+alias Nr =  altitudeOfTheCameraFromTheEarthSCenterMeasuredInUnitsOfTheEarth;
+#  Xo - X-coordinate of origin of sector image
+unsigned[4] xCoordinateOfOriginOfSectorImage  : dump;
+
+alias Xo =  xCoordinateOfOriginOfSectorImage;
+#  Yo - Y-coordinate of origin of sector image
+unsigned[4] yCoordinateOfOriginOfSectorImage  : dump;
+
+alias Yo =  yCoordinateOfOriginOfSectorImage;
+
+alias geography.Ni = numberOfPointsAlongXAxis;
+alias geography.Nj = numberOfPointsAlongYAxis;
+# END   2/template.3.90 ----------------------------------------------------------------------

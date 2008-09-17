@@ -1,0 +1,45 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+codetable[1] marsClass   "mars/class.table" = "od" : dump;
+codetable[1] marsType   "mars/type.table" = "an" : dump;
+codetable[2] marsStream "mars/stream.table" = "oper" : dump ;
+ksec1expver[4] experimentVersionNumber = "0001" : dump;
+
+alias ls.dataType=marsType;
+
+alias mars.class = marsClass;
+alias mars.type = marsType;
+alias mars.stream = marsStream;
+alias mars.expver = experimentVersionNumber;
+
+# meta marsDomain domain("mars/domain.table",mars.area);
+
+#constant globalDomain "g";
+# alias mars.domain = marsDomain;
+
+#alias mars.month = month;
+
+# For type=cl
+
+if(timeRangeIndicator == 113 or timeRangeIndicator == 123 or timeRangeIndicator == 120)
+{
+  alias mars.date = monthlyVerificationDate;
+}
+
+constant SimulationsOf30Days = "s3";
+constant TYPE_S3 = 22;
+
+if(marsType == TYPE_S3)
+{
+  alias mars.date = dayOfTheYearDate;
+}
+
+#if(marsType == 11) # PF
+#{
+#  constant isEPS = 1;
+#}

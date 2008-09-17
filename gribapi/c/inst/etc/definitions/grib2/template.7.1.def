@@ -1,0 +1,25 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+# START 2/template.7.1 ----------------------------------------------------------------------
+# TEMPLATE 7.1, Matrix values at grid point -simple packing
+# Octets 6-nn : Binary data values - binary string, with each
+# (scaled)
+# ????          data_values__binary_string_with_each
+
+  meta codedValues data_g2simple_packing(
+        section7Length,
+        offsetBeforeData,
+        offsetOfSection,
+        numberOfValues,
+        numberOfBitsContainingEachPackedValue,
+        referenceValue,
+        binaryScaleFactor,
+        decimalScaleFactor
+  ): read_only;
+
+# END   2/template.7.1 ----------------------------------------------------------------------

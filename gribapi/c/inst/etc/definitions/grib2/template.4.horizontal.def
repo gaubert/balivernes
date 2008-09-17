@@ -1,0 +1,44 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Horizontal level or layer";
+
+#  Type of first fixed surface
+codetable[1] typeOfFirstFixedSurface 'grib2/4.5.table' : dump;
+meta unitsOfFirstFixedSurface codetable_units('grib2/4.5.table',typeOfFirstFixedSurface) : dump;
+meta nameOfFirstFixedSurface codetable_title('grib2/4.5.table',typeOfFirstFixedSurface) : dump;
+
+#  Scale factor of first fixed surface
+signed[1] scaleFactorOfFirstFixedSurface  : can_be_missing,dump;
+
+#  Scaled value of first fixed surface
+unsigned[4] scaledValueOfFirstFixedSurface  : can_be_missing,dump;
+
+#  Type of second fixed surface
+codetable[1] typeOfSecondFixedSurface 'grib2/4.5.table' = 255;
+meta unitsOfSecondFixedSurface codetable_units('grib2/4.5.table',typeOfFirstFixedSurface) : dump;
+meta nameOfSecondFixedSurface codetable_title('grib2/4.5.table',typeOfFirstFixedSurface) : dump;
+
+#  Scale factor of second fixed surface
+signed[1] scaleFactorOfSecondFixedSurface = missing() : can_be_missing,dump;
+
+#  Scaled value of second fixed surface
+unsigned[4] scaledValueOfSecondFixedSurface = missing() : can_be_missing,dump;
+
+meta level g2level(typeOfFirstFixedSurface,
+  scaleFactorOfFirstFixedSurface,
+  scaledValueOfFirstFixedSurface,
+  typeOfSecondFixedSurface,
+  scaleFactorOfSecondFixedSurface,
+  scaledValueOfSecondFixedSurface)  :dump,can_be_missing;
+
+alias ls.lev=level;
+
+alias mars.levelist = level;
+alias mars.levtype  = typeOfFirstFixedSurface;
+alias ls.levelType=typeOfFirstFixedSurface;
+transient indicatorOfTypeOfLevel  = typeOfFirstFixedSurface;

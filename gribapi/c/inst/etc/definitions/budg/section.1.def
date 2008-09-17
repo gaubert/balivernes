@@ -1,0 +1,86 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+length[3] section1Length ;
+
+unsigned[1] gribTablesVersionNo ;
+#alias editionNumber = gribTablesVersionNo ;
+codetable[1] identificationOfOriginatingGeneratingCentre 'grib1/0.table';
+
+alias ls.centre=identificationOfOriginatingGeneratingCentre;
+
+unsigned[1] generatingProcessIdentifier ;
+
+unsigned[1] gridDefinition ;
+
+flags[1] flag 'grib1/1.table';
+
+codetable[1] indicatorOfParameter 'grib1/2.[identificationOfOriginatingGeneratingCentre:l].[gribTablesVersionNo:l].table';
+
+codetable[1] indicatorOfTypeOfLevel 'grib1/3.table';
+codetable[2] heightPressureEtcOfLevels 'grib1/3.table';
+alias ls.levtype=indicatorOfTypeOfLevel;
+
+#  Year of century
+# NOTE 6 NOT FOUND
+unsigned[1] yearOfCentury ;
+
+#  Month
+unsigned[1] month ;
+
+#  Day
+unsigned[1] day;
+
+#  Hour
+unsigned[1] hour ;
+
+#  Minute
+unsigned[1] minute ;
+
+
+constant second  = 0;
+meta      dataDate    budgdate(yearOfCentury,month,day);
+alias ls.date=dataDate;
+meta      dataTime    time(hour,minute,second);
+
+
+#  Indicator of unit of time range
+codetable[1] indicatorOfUnitOfTimeRange 'grib1/4.table';
+
+#  P1 - Period of time
+# (number of time units)
+unsigned[1] periodOfTime ;
+
+alias   P1 =  periodOfTime ;
+
+#  P2 - Period of time
+# (number of time units)
+unsigned[1] periodOfTimeIntervals ;
+
+alias   P2 =  periodOfTimeIntervals ;
+
+codetable[1] timeRangeIndicator 'grib1/5.table';
+
+meta startStepInHours  g1startstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange);
+meta endStepInHours    g1endstep(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange);
+meta stepInHours       g1step(P1,P2,timeRangeIndicator,indicatorOfUnitOfTimeRange);
+meta stepRange          g1marsstep(startStepInHours,endStepInHours);
+
+alias marsStep =stepInHours;
+alias mars.step = stepInHours;
+alias ls.stepRange=stepRange;
+alias mars.startStep = startStepInHours ;
+alias marsStartStep=startStepInHours;
+alias mars.endStep = endStepInHours ;
+alias marsEndStep = endStepInHours ;
+alias mars.date = dataDate;
+alias mars.time = dataTime;
+
+# This does not work? gribTablesVersionNo is 0
+meta parameter sprintf("%d.%d",indicatorOfParameter,gribTablesVersionNo) ;
+alias ls.parameter=parameter;
+alias mars.param = parameter;

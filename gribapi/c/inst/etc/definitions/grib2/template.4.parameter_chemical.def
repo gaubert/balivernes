@@ -1,0 +1,43 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "Parameter information";
+
+#  Parameter category
+codetable[1] parameterCategory 'grib2/4.1.[discipline:l].table' : dump;
+
+#  Parameter number
+codetable[1] parameterNumber 'grib2/4.2.[discipline:l].[parameterCategory:l].table' : dump;
+meta parameterUnits codetable_units('grib2/4.2.[discipline:l].[parameterCategory:l].table',parameterNumber) : dump;
+meta parameterName codetable_title('grib2/4.2.[discipline:l].[parameterCategory:l].table',parameterNumber) : dump;
+# Atmospheric chemical or physical constitutent type
+codetable[2] atmosphericChemicalOrPhysicalConstituentType 'grib2/4.230.table' : dump;
+alias constituentType=atmosphericChemicalOrPhysicalConstituentType;
+
+#  Type of generating process
+codetable[1] typeOfGeneratingProcess 'grib2/4.3.table' : dump;
+
+#  Background generating process identifier
+# (defined by originating centre)
+unsigned[1] backgroundGeneratingProcessIdentifier = 255 : dump; # = generatingProcessIdentifier;
+
+#  Analysis or forecast generating processes identifier
+# (defined by originating centre)
+unsigned[1] generatingProcessIdentifier  : dump;
+
+#  Hours of observational data cutoff after reference time
+# NOTE 1 NOT FOUND
+unsigned[2] hoursAfterReferenceTimeOfDataCutoff  : dump;
+
+#  Minutes of observational data cutoff after reference time
+unsigned[1] minutesAfterReferenceTimeOfDataCutoff  : dump;
+
+#  Indicator of unit of time range
+codetable[1] indicatorOfUnitOfTimeRange 'grib2/4.4.table' : dump;
+
+#  Forecast time in units defined by octet 18
+unsigned[4] forecastTime  : dump;

@@ -1,0 +1,15 @@
+# Copyright 2005-2007 ECMWF
+# 
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+ksec          KSEC0    "gribex/ksec0";
+ksec          KSEC1    "gribex/ksec1";
+ksec          KSEC3    "gribex/ksec3";
+ksec          KSEC4    "gribex/ksec4";
+ksec          KSEC2    "gribex/ksec2.[dataRepresentationType]";
+ksec          PSEC2    "gribex/psec2";
+ksec          PSEC3    "gribex/psec3";
+ksec          PSEC4    "gribex/psec4";

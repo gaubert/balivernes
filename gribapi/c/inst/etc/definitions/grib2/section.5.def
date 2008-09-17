@@ -1,0 +1,52 @@
+# Copyright 2005-2007 ECMWF
+#
+# Licensed under the GNU Lesser General Public License which
+# incorporates the terms and conditions of version 3 of the GNU
+# General Public License.
+# See LICENSE and gpl-3.0.txt for details.
+
+label "grib 2 Section 5 DATA REPRESENTATION SECTION";
+position offsetBSection5;
+
+# START grib2::section
+# SECTION 5, DATA REPRESENTATION SECTION
+#  Length of section in octets
+
+# (nn)
+position offsetSection5;
+length[4] section5Length ;
+
+#  Number of section
+unsigned[1] numberOfSection =5 : read_only;
+
+#  Number of data points where one or more values are specified in Section 7 when a bit map is present,
+#  total number of data pints when a bit map is absent.
+unsigned[4] numberOfValues  : dump;
+
+#  Data Representation Template Number
+codetable[2] dataRepresentationTemplateNumber 'grib2/5.0.table';
+
+template dataRepresentation "grib2/template.5.[dataRepresentationTemplateNumber:l].def";
+# Octets 12-nn : Data Representation Template (see Template 5.x, where x is the Data Representation
+# ????          data_representation_template_see_template_5_x_where_x_is_the_data_representation
+
+concept typeOfPacking {
+  "grid_simple" = { dataRepresentationTemplateNumber = 0;}
+  "grid_simple_matrix" = { dataRepresentationTemplateNumber = 1;matrixBitmapsPresent=0;}
+  "grid_simple_matrix_bitmap" = { dataRepresentationTemplateNumber = 1;matrixBitmapsPresent=1;}
+  "grid_complex" = { dataRepresentationTemplateNumber = 2;}
+  "grid_complex_spatial_differencing" = { dataRepresentationTemplateNumber = 3; }
+  "grid_jpeg"    = { dataRepresentationTemplateNumber     = 40000; }
+  "grid_jpeg"    = { dataRepresentationTemplateNumber     = 40; }
+  "grid_png"     = { dataRepresentationTemplateNumber     = 40010; }
+  "grid_png"     = { dataRepresentationTemplateNumber     = 41; }
+  "grid_ieee"    = { dataRepresentationTemplateNumber     = 4; }
+  "spectral_simple"     = { dataRepresentationTemplateNumber     = 50; }
+  "spectral_complex"     = { dataRepresentationTemplateNumber     = 51; }
+  "grid_simple_log_preprocessing"     = { dataRepresentationTemplateNumber     = 61; }
+}  : dump;
+
+alias ls.packingType=typeOfPacking;
+alias dataRepresentation=packingType;
+
+# END   grib2::section
