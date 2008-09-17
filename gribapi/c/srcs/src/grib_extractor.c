@@ -142,12 +142,17 @@ static int read_grib(FILE* f,char * filename)
        printf("-- GRIB N. %d --: date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",grib_count,date,time,short_name,level ,lats[0],lons[0],distances[0],values[0]);
     }
 
+    if (nearest)
+    { 
+       grib_nearest_delete(nearest);       
+       nearest = NULL;
+    }
+
     /* reinit snlen as it is a inout param */
     snlen = MAX_VAL_LEN;
 
   }
 
-  if (nearest) grib_nearest_delete(nearest);       
 
   if (h) grib_handle_delete(h);
 
