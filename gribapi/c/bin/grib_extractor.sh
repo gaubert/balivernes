@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GRIB_EXTRACTOR_HOME=/home/aubert/dev/src-reps/balivernes/gribapi/c/inst
+GRIB_EXTRACTOR_HOME=..
 
 export GRIB_DEFINITION_PATH=$GRIB_EXTRACTOR_HOME/etc/definitions
 
