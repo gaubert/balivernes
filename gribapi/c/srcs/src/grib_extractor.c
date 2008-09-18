@@ -161,7 +161,7 @@ static int parse_coordinates(char * strCoords,double* lats, double* lons, int * 
  */
 static void usage(int status)
 {
-  fprintf(stderr,"\nUsage: grib_extractor -c lat,lon/lat/lon GRIBFILES .\n Mandatory arguments:\n -c      (--coordinates)  list of coordinates (format: lat,lon/lat,lon ...) . For example -c 40,-15/60,-20.\n \n\n");
+  fprintf(stderr,"\nUsage: grib_extractor -c lat,lon/lat/lon GRIBFILES .\n Mandatory arguments:\n -c      (--coordinates)  list of coordinates (format: lat,lon/lat,lon ...) . For example -c 40,-15/60,-20.\n -d      (--directory)  directory where to store the generated data files. (default: /tmp).\n\n\n Example: \n  ./grib_extractor -d /tmp/generated-files -c  40,-15/60,-20 EN08081818 EN08081803\n");
   exit(status);
 }
 

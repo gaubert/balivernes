@@ -14,7 +14,7 @@ VERSION=0.5
 DIST=grib_extractor-$(VERSION)
 LIBS = -L$(LIBGRIBAPI)
 
-GCCOPTS = -pedantic -Wall   -g 
+GCCOPTS = -pedantic -Wall -g -O2 
 
 all: compile install
 
