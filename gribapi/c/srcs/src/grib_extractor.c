@@ -88,7 +88,7 @@ static int parse_coordinates(char * strCoords,double* lats, double* lons, int * 
  */
 static void usage(int status)
 {
-  fprintf(stderr,"\nExtract values from the list of gribs passed as argument in stdout\n Usage: grib_extractor --coordinates (-c) grib1 grib2 ... .\n Mandatory arguments:\n --coordinates      (-c)  list of coordinates\n \n\n");
+  fprintf(stderr,"\nUsage: grib_extractor -c lat,lon/lat/lon GRIBFILES .\n Mandatory arguments:\n -c      (--coordinates)  list of coordinates (format: lat,lon/lat,lon ...) . For example -c 40,-15/60,-20.\n \n\n");
   exit(status);
 }
 
@@ -182,7 +182,13 @@ int main(int argc, char *argv[])
 
    if (option_index == argc)
    { 
-      fprintf (stderr, "too few arguments \n");
+      fprintf (stderr, "Error. too few arguments. Need grib files path \n");
+      usage(EXIT_FAILURE);
+   }
+
+   if (coordinates == NULL)
+   {
+      fprintf (stderr, "Error. Need stations coordinates \n");
       usage(EXIT_FAILURE);
    }
 
@@ -208,7 +214,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-static int read_grib(FILE* f,char * filename,double *lats,double *lons,int nbCoords)
+static int read_grib(FILE* gribfile,char * filename,double *lats,double *lons,int nbCoords)
 {
   grib_handle* h=NULL;
   int err=0;
@@ -224,7 +230,7 @@ static int read_grib(FILE* f,char * filename,double *lats,double *lons,int nbCoo
   size_t timelen=MAX_VAL_LEN;
 
   size_t size=4;
-  double lat=-40,lon=15;
+  /* double lat=-40,lon=15; */
   int mode=0;
   grib_nearest* nearest=NULL;
   double nearest_lats[4]={0,};
@@ -232,8 +238,24 @@ static int read_grib(FILE* f,char * filename,double *lats,double *lons,int nbCoo
   double values[4]={0,};
   double distances[4]={0,};
   size_t indexes[4]={0,};
+  FILE*  fds[100] = {NULL,};
+  char   tempfilename[512];
+  int    i = 0;
+  int    j = 0;
 
-  while((h = grib_handle_new_from_file(0,f,&err)) != NULL) 
+  /* Open files one per coordinate */
+  for (i=0; i < nbCoords; i++)
+  {
+     sprintf(tempfilename,"/tmp/grib_extract[%g,%g].txt",lats[i],lons[i]);
+     fds[i] = fopen(tempfilename,"w");
+     if(!fds[i])
+     {
+       perror(tempfilename);
+       exit(1);
+     }
+  }
+
+  while((h = grib_handle_new_from_file(0,gribfile,&err)) != NULL) 
   {
 
     grib_count++;
@@ -262,37 +284,51 @@ static int read_grib(FILE* f,char * filename,double *lats,double *lons,int nbCoo
        GRIB_CHECK(grib_get_string(h,"time",time,&timelen),date);
        timelen = MAX_VAL_LEN;
 
-       /* get nearest value from nearest grib point */
-       mode=GRIB_NEAREST_SAME_GRID |  GRIB_NEAREST_SAME_POINT;
+       /* For each of the coordinates */
+       for (j=0; j < nbCoords; j++)
+       {
 
-       /* create nearest structure */
-       if (!nearest) nearest=grib_nearest_new(h,&err);
-       GRIB_CHECK(err,0);
+          /* get nearest value from nearest grib point */
+          mode=GRIB_NEAREST_SAME_GRID |  GRIB_NEAREST_SAME_POINT;
 
-       GRIB_CHECK(grib_nearest_find(nearest,h,lat,lon,mode,nearest_lats,nearest_lons,values,distances,indexes,&size),0);
+          /* create nearest structure */
+          if (!nearest) nearest=grib_nearest_new(h,&err);
+            GRIB_CHECK(err,0);
 
-       /*for (i=0;i<4;i++) 
-       {        
-         printf("%d %.2f %.2f %g %g - ", (int)indexes[i],lats[i],lons[i],distances[i],values[i]);
-         printf("\n");
+          GRIB_CHECK(grib_nearest_find(nearest,h,lats[j],lons[j],mode,nearest_lats,nearest_lons,values,distances,indexes,&size),0);
+
+          fprintf(fds[j],"-- GRIB N. %d --: date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",grib_count,date,time,short_name,level ,nearest_lats[0],nearest_lons[0],distances[0],values[0]);
+          
+          if (nearest)
+          { 
+             grib_nearest_delete(nearest);       
+             nearest = NULL;
+          }
+          /*for (i=0;i<4;i++) 
+          {        
+            printf("%d %.2f %.2f %g %g - ", (int)indexes[i],lats[i],lons[i],distances[i],values[i]);
+            printf("\n");
+          }
+          */
        }
-       */
-       printf("-- GRIB N. %d --: date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",grib_count,date,time,short_name,level ,lats[0],lons[0],distances[0],values[0]);
     }
 
-    if (nearest)
-    { 
-       grib_nearest_delete(nearest);       
-       nearest = NULL;
-    }
 
     /* reinit snlen as it is a inout param */
     snlen = MAX_VAL_LEN;
 
   }
 
-
   if (h) grib_handle_delete(h);
+
+  /* Open files one per coordinate */
+  for (i=0; i < nbCoords; i++)
+  {
+     if (fclose(fds[i]) !=0)
+     {
+        perror("closing data files");
+     }
+  }
 
   return 0;
 
