@@ -104,7 +104,7 @@ int create_directories(char *sPath)
 	}
 	else
 	{
-	  fprintf(stdout,"Create directory: %s", opath);
+	  fprintf(stdout,"Create directory: %s\n", opath);
 	}
   }
 
@@ -113,26 +113,26 @@ int create_directories(char *sPath)
 
 static int parse_coordinates(char * strCoords,double* lats, double* lons, int * nbCoord)
 {
-  char * field = NULL;
-  char * theRest = NULL;
+  char * origCoordStr = NULL;
   int    n     = 0;
   char f[256];
   f[0] = '\0'; 
 
   double  lat = -1;
   double  lon = -1;
-  int     res = -1;
+  
+  origCoordStr = strCoords;
 
   *nbCoord = 0;
 
-  printf("Coords %s\n",strCoords);
+  /* printf("Coords %s\n",strCoords); */
 
   while (sscanf(strCoords, "%256[^/]%n", f, &n) == 1)
   {
-     printf("field = \"%s\"\nn = %d\n", f,n);
+     /* printf("field = \"%s\"\nn = %d\n", f,n); */
 
      /* try to parse coordinates */
-     if ( (res = sscanf(f,"%lf,%lf",&lat,&lon)) == 2)
+     if ( sscanf(f,"%lf,%lf",&lat,&lon) == 2)
      {
         printf("point: lat(%g), lon(%g)\n",lat,lon);
         lats[*nbCoord] = lat;
@@ -141,11 +141,9 @@ static int parse_coordinates(char * strCoords,double* lats, double* lons, int * 
      }     
      else
      {
-        printf("Error. Non valid coordinates string : %s\n",strCoords);
+        printf("Error. Non valid coordinates string : %s\n",origCoordStr);
         return EXIT_FAILURE;
      }
-
-     printf("res = %d\n",res);
 
      strCoords += n; /* advance the pointer by the number of characters read */
      if ( *strCoords != '/' )
@@ -219,9 +217,11 @@ int main(int argc, char *argv[])
      
           case 'c':
 			coordinates = optarg;
-            printf("Coordinates = %s \n",coordinates);
-            parse_coordinates(coordinates,lats,lons,&nbCoords);
-            printf("Nb Coords %d\n",nbCoords);
+            /* printf("Coordinates = %s \n",coordinates); */
+            if (parse_coordinates(coordinates,lats,lons,&nbCoords) == EXIT_FAILURE)
+            {
+               usage(EXIT_FAILURE);
+            }
             break;
 
           case 'd':
@@ -297,7 +297,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
      }
      printf("--------------------------------------------------------------------------\n");
-     printf("----------------------Process Filename: %s---------------------------\n",filename);
+     printf("Process Filename: %s\n",filename);
      printf("--------------------------------------------------------------------------\n");
     
      read_grib(f,directory,filename,lats,lons,nbCoords);
@@ -355,7 +355,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
         exit(EXIT_FAILURE);
       }
     }
-
+ 
     do
     {
 
@@ -363,15 +363,14 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
       if(!h) 
       {
         printf("ERROR: Unable to create grib handle\n");
-        exit(1);
+        exit(EXIT_FAILURE);
       }
 
       /* get grib param or short_name */
       snlen=MAX_VAL_LEN;
       GRIB_CHECK(grib_get_string(h,"short_name",short_name,&snlen),short_name);
-      /* printf("short_name = %s\n",short_name); */
-
-      if ( (strncmp(short_name,"U",snlen)==0) || (strncmp(short_name,"V",snlen)==0) || (strncmp(short_name,"T",snlen)==0))
+      
+      if ( (strncmp(short_name,"U",snlen)==0) || (strncmp(short_name,"V",snlen)==0) || (strncmp(short_name,"T",snlen)==0) || (strncmp(short_name,"SP",snlen)==0) || (strncmp(short_name,"Q",snlen)==0) || (strncmp(short_name,"Z",snlen)==0))
       {
          /* get level */
          GRIB_CHECK(grib_get_string(h,"lev",level,&levlen),level);
@@ -398,7 +397,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
   
             GRIB_CHECK(grib_nearest_find(nearest,h,lats[j],lons[j],mode,nearest_lats,nearest_lons,values,distances,indexes,&size),0);
   
-            fprintf(fds[j],"-- GRIB N. %d --: date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",grib_count,date,time,short_name,level ,nearest_lats[0],nearest_lons[0],distances[0],values[0]);
+            fprintf(fds[j],"date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",date,time,short_name,level ,nearest_lats[0],nearest_lons[0],distances[0],values[0]);
           
             if (nearest)
             { 
@@ -418,11 +417,13 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
       /* reinit snlen as it is a inout param */
       snlen = MAX_VAL_LEN;
 
+      /* delete grib_handle */
+      if (h) grib_handle_delete(h);
+
     }
     while( (h = grib_handle_new_from_file(0,gribfile,&err)) != NULL);
   }
 
-  if (h) grib_handle_delete(h);
 
   /* Open files one per coordinate */
   for (i=0; i < nbCoords; i++)

@@ -14,13 +14,13 @@ VERSION=0.5
 DIST=grib_extractor-$(VERSION)
 LIBS = -L$(LIBGRIBAPI)
 
-GCCOPTS = -pedantic -Wall   -g -O2
+GCCOPTS = -pedantic -Wall   -g 
 
 all: compile install
 
 compile: 
 	gcc -I$(INC) -c $(SRC)/grib_extractor.c
-	gcc -pedantic -Wall   -g -O2   -o grib_extractor grib_extractor.o $(LIBS) -lgrib_api -lm -ljasper 
+	gcc $(GCCOPTS)  -o grib_extractor grib_extractor.o $(LIBS) -lgrib_api -lm -ljasper 
 
 install:
 	cp $(SRC)/grib_extractor $(BIN)
