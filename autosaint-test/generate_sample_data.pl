@@ -5,7 +5,7 @@ use Getopt::Long;
 use Pod::Usage;
 use File::Path;
 use Data::Dumper;
-use Extractor;
+use Common::Extractor;
 
 #
 # Release number.

@@ -13,6 +13,7 @@
  * Description:
  *
  * Author: Guillaume Aubert <guillaume.aubert@ctbto.org>
+ * Date  : 22/09/2008
  *
  *
  */
@@ -30,13 +31,23 @@
 
 #define MAX_KEY_LEN  255
 #define MAX_VAL_LEN  1024
+#define MAX_LAT_LON  500
+#define MAX_STR_LEN  256
 
 static char  version_number[] = "0.5";
 static char  default_dir[]    = "/tmp";
 
 static void usage(int status);
 
-static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double *lats,double *lons,int nbCoords);
+static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double *lats,double *lons,int nbCoords,char ** stations);
+
+struct station_info_type
+{                     
+    char    name[MAX_STR_LEN];              /* station name */
+    double  lat;
+    double  lon;
+} station_info;
+
 
 /**
 *  @brief  Check if the necessary directories can be created
@@ -51,10 +62,10 @@ int create_directories(char *sPath)
 {
 
   /* check if the directory already exists if not then try to create it */
-  char opath[1024];
+  char opath[1024] = {'\0',};
   char *p;
   size_t len;
-  char errMsg[256];
+  char errMsg[MAX_STR_LEN];
 
   strncpy(opath, sPath, sizeof(opath));
   len = strlen(opath);
@@ -111,30 +122,43 @@ int create_directories(char *sPath)
   return EXIT_SUCCESS;
 }
 
-static int parse_coordinates(char * strCoords,double* lats, double* lons, int * nbCoord)
+static int parse_coordinates(char * strCoords,char stations[][MAX_STR_LEN],double* lats, double* lons, int * nbCoord)
 {
   char * origCoordStr = NULL;
   int    n     = 0;
-  char f[256];
-  f[0] = '\0'; 
+  char f[MAX_STR_LEN] = {'\0',};
 
   double  lat = -1;
   double  lon = -1;
+  char station[MAX_STR_LEN] = {'\0',};
   
+  int     nbElem =0;
   origCoordStr = strCoords;
 
   *nbCoord = 0;
 
-  /* printf("Coords %s\n",strCoords); */
+  printf("Coords %s\n",strCoords);
 
   while (sscanf(strCoords, "%256[^/]%n", f, &n) == 1)
   {
-     /* printf("field = \"%s\"\nn = %d\n", f,n); */
+     printf("field = \"%s\"\nn = %d\n", f,n);
 
      /* try to parse coordinates */
-     if ( sscanf(f,"%lf,%lf",&lat,&lon) == 2)
+     if ( sscanf(f,"%256[^:]:%lf,%lf",station,&lat,&lon) == 3)
      {
-        printf("point: lat(%g), lon(%g)\n",lat,lon);
+        printf("station: %s, point: lat(%g), lon(%g)\n",station,lat,lon);
+        strncpy(stations[*nbCoord],station,strlen(station));
+        lats[*nbCoord] = lat;
+        lons[*nbCoord] = lon;
+        (*nbCoord)++;
+     }     
+     else if ( sscanf(f,"%lf,%lf",&lat,&lon) == 2)
+     {
+        printf("Station name not passed. Use the coordinates instead\n");
+        sprintf(station,"[%.2f,%.2f]",lat,lon);
+        printf("point: lat(%.2f), lon(%.2f)\n",lat,lon);
+        strcpy(stations[*nbCoord],station);
+        printf("HELLO\n");
         lats[*nbCoord] = lat;
         lons[*nbCoord] = lon;
         (*nbCoord)++;
@@ -178,8 +202,9 @@ int main(int argc, char *argv[])
   int option_index = 0;
   char * coordinates = NULL;
   char * directory   = NULL;
-  double lats[100];
-  double lons[100];
+  char   stations[MAX_LAT_LON][MAX_STR_LEN];
+  double lats[MAX_LAT_LON];
+  double lons[MAX_LAT_LON];
   int nbCoords = 0;
 
   while (1)
@@ -218,7 +243,7 @@ int main(int argc, char *argv[])
           case 'c':
 			coordinates = optarg;
             /* printf("Coordinates = %s \n",coordinates); */
-            if (parse_coordinates(coordinates,lats,lons,&nbCoords) == EXIT_FAILURE)
+            if (parse_coordinates(coordinates,stations,lats,lons,&nbCoords) == EXIT_FAILURE)
             {
                usage(EXIT_FAILURE);
             }
@@ -258,7 +283,7 @@ int main(int argc, char *argv[])
 
    if (help_flag == 1)
    {
-	   usage(0);
+	   usage(EXIT_SUCCESS);
    }
 
    if (option_index == argc)
@@ -300,13 +325,13 @@ int main(int argc, char *argv[])
      printf("Process Filename: %s\n",filename);
      printf("--------------------------------------------------------------------------\n");
     
-     read_grib(f,directory,filename,lats,lons,nbCoords);
+     read_grib(f,directory,filename,lats,lons,nbCoords,(char**)stations);
    } 
 
   return EXIT_SUCCESS;
 }
 
-static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double *lats,double *lons,int nbCoords)
+static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double *lats,double *lons,int nbCoords,char ** stations)
 {
   grib_handle* h=NULL;
   int err=0;
@@ -330,7 +355,8 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
   double distances[4]={0,};
   size_t indexes[4]={0,};
   FILE*  fds[100] = {NULL,};
-  char   tempfilename[512];
+  char   tempfilename[1024];
+  char   tempdir[512];
   int    i = 0;
   int    j = 0;
 
@@ -344,10 +370,15 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,double 
     /* get time */
     GRIB_CHECK(grib_get_string(h,"time",time,&timelen),date);
 
+    /* create directory with date name if it doesn't exist */
+    sprintf(tempdir,"%s/%s",directory,date);
+    create_directories(tempdir);
+
     /* Open files one per coordinate */
     for (i=0; i < nbCoords; i++)
     {
-      sprintf(tempfilename,"%s/gextract_%s%s_[%g,%g].data",directory,date,time,lats[i],lons[i]);
+      /* name the future file following this schema: IS26_200807202100_ECMWF91_UVTSPQZ.dat */
+      sprintf(tempfilename,"%s/%s_%s%s_ECMWF91_UVTSPQZ.data",tempdir,stations[nbCoords],date,time);
       fds[i] = fopen(tempfilename,"w");
       if(!fds[i])
       {
