@@ -18,6 +18,7 @@
  *
  */
 
+#include <stdbool.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -60,7 +61,6 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
 */
 int create_directories(char *sPath)
 {
-
   /* check if the directory already exists if not then try to create it */
   char opath[1024] = {'\0',};
   char *p;
@@ -161,11 +161,11 @@ static int parse_coordinates(char * strCoords,struct station_info_type *infos, i
 
   *nbCoord = 0;
 
-  printf("Coords %s\n",strCoords);
+  /* printf("Coords %s\n",strCoords); */
 
   while (sscanf(strCoords, "%256[^/]%n", f, &n) == 1)
   {
-     printf("field = \"%s\"\nn = %d\n", f,n);
+     /* printf("field = \"%s\"\nn = %d\n", f,n); */
 
      /* try to parse coordinates */
      if ( sscanf(f,"%256[^:]:%lf,%lf",station,&lat,&lon) == 3)
@@ -174,7 +174,6 @@ static int parse_coordinates(char * strCoords,struct station_info_type *infos, i
         infos[*nbCoord].lat = lat;
         infos[*nbCoord].lon = lon;
         strcpy(infos[*nbCoord].name,station);
-        printf("copied station=%s\n",infos[*nbCoord].name);
         (*nbCoord)++;
      }     
      else if ( sscanf(f,"%lf,%lf",&lat,&lon) == 2)
@@ -185,7 +184,6 @@ static int parse_coordinates(char * strCoords,struct station_info_type *infos, i
         infos[*nbCoord].lat = lat;
         infos[*nbCoord].lon = lon;
         strcpy(infos[*nbCoord].name,station);
-        printf("copied station=%s\n",infos[*nbCoord].name);
         (*nbCoord)++;
      }     
      else
@@ -205,7 +203,7 @@ static int parse_coordinates(char * strCoords,struct station_info_type *infos, i
   return EXIT_FAILURE;
 }
 
-static void printStationInfos(struct station_info_type * infos,int nbCoords)
+static void print_station_infos(struct station_info_type * infos,int nbCoords)
 {
 
   int i = 0;
@@ -216,6 +214,34 @@ static void printStationInfos(struct station_info_type * infos,int nbCoords)
   }
   printf("print station infos END\n");
 
+}
+
+/* return date and possibly time from the filename */
+char * date_from_filename(char * filename,char * datetime,bool removetime)
+{
+   int n = -1;
+   if ( (n = sscanf(filename, "EN%s",datetime)) == 1)
+   {
+      if ( (n = strlen(datetime)) == 8)
+      {
+         if (removetime)
+         {
+           datetime[6]='\0';
+         }
+      }
+      else
+      {
+         fprintf(stderr,"Error. Expected to have an extracted 8 characters datetime. Instead got %s which is %d characters long.\n",datetime,n);
+         exit(EXIT_FAILURE);
+      }
+
+      return datetime;
+   }
+   else
+   {
+       fprintf(stderr,"Error. Expected to have a filename in the form of EN080812. Instead got %s.",filename);
+       exit(EXIT_FAILURE);
+   }
 }
 
 /**
@@ -397,6 +423,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
   char   tempdir[512];
   int    i = 0;
   int    j = 0;
+  char datetime_str[MAX_STR_LEN] = {'\0',};
 
   /* printStationInfos(infos,nbCoords); */
 
@@ -414,14 +441,19 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
     GRIB_CHECK(grib_get_string(h,"stepInHours",step,&steplen),step);
 
     /* create directory with date name if it doesn't exist */
-    sprintf(tempdir,"%s/%s",directory,date);
+    /* strip the directories to only keep the filename and extract the date and remove the time from the filename */
+    sprintf(tempdir,"%s/%s",directory,date_from_filename(file_from_path(grib_filename),datetime_str,true));
     create_directories(tempdir);
+
+    /* now get date and time from the filename */
+    /* do it in datetime_str */
+    date_from_filename(file_from_path(grib_filename),datetime_str,false);
 
     /* Open files one per coordinate */
     for (i=0; i < nbCoords; i++)
     {
       /* name the future file following this schema: IS26_FILENAME_ECMWF91_UVTSPQZ.dat */
-      sprintf(tempfilename,"%s/%s_%s_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,file_from_path(grib_filename),i);
+      sprintf(tempfilename,"%s/%s_%s_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,datetime_str,i);
       fds[i] = fopen(tempfilename,"w");
       if(!fds[i])
       {
@@ -455,7 +487,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
          datelen = MAX_VAL_LEN;
   
          /* get time */
-         GRIB_CHECK(grib_get_string(h,"time",time,&timelen),date);
+         GRIB_CHECK(grib_get_string(h,"time",time,&timelen),time);
          timelen = MAX_VAL_LEN;
 
          /* get stepInHours */
