@@ -7,7 +7,8 @@ export LD_LIBRARY_PATH=../srcs/libs/lib64:$LD_LIBRARY_PATH
 
 export GRIB_DEFINITION_PATH=$GRIB_EXTRACTOR_HOME/etc/definitions
 
-GRIB_FILES=" /ops/data/atm/primary-met/EN0808??{00,06,09,18,21}"
+#GRIB_FILES="/ops/data/atm/primary-met/EN0808??{00,06,09,18,21}"
+GRIB_DIR="/ops/data/atm/primary-met"
 
 STATION_LIST_1="I01AR:-40.7,-70.6/I02AR:-55.0,-68.0/I03AU:-68.4,77.6/I04AU:-32.9,117.2/I05AU:-42.1,147.2/I06AU:-12.3,97.0/I07AU:-19.9,134.3/I08BO:-16.3,-68.1/I09BR:-15.6,-48.0/I10CA:50.2,-95.9/I11CV:16.0,-24.0/I12CAR:5.2,18.4/I13CHL:-27.0,-109.2/I14CHL:-33.8,-80.7/I15CHN:40.0,116.0/I16CHN:25.0,102.8/I17CI:6.7,-4.9/I18DK:76.5,-68.7/I19DJ:11.3,43.5"
 
@@ -17,16 +18,9 @@ STATION_LIST_3="I51UK:32.0,-64.5/I52UK:-5.0,72.0/I53US:64.8,-146.9/I54US:-75.5,-
 
 # prepare special extract
 echo "First batch of stations"
-#$GRIB_EXTRACTOR_HOME/bin/grib_extractor -c $STATION_LIST_1 -d /tmp/generated-test $GRIB_FILES
-#echo "second batch of stations"
-#$GRIB_EXTRACTOR_HOME/bin/grib_extractor -d /tmp/generated-test -c $STATION_LIST_2 $GRIB_FILES*
+#$GRIB_EXTRACTOR_HOME/bin/grib_extractor -c $STATION_LIST_1 -d /tmp/generated-test $GRIB_DIR//EN??????{00,06,09,18,21}
+echo "second batch of stations"
+#$GRIB_EXTRACTOR_HOME/bin/grib_extractor -d /tmp/generated-test -c $STATION_LIST_2 $GRIB_DIR/EN??????{00,06,09,18,21}
 echo "third batch of stations"
-$GRIB_EXTRACTOR_HOME/bin/grib_extractor -c $STATION_LIST_3 -d . $GRIB_FILES
-
-
-#$GRIB_EXTRACTOR_HOME/bin/grib_extractor -c -40.7,-70.6/-55.0,-68.0 -d /tmp/generated-test /ops/data/atm/primary-met/EN08*
-
-#$GRIB_EXTRACTOR_HOME/bin/grib_extractor $*
-
-
+$GRIB_EXTRACTOR_HOME/bin/grib_extractor -c $STATION_LIST_3 -d /tmp/generated-test $GRIB_DIR/EN??????{00,06,09,18,21}
 
