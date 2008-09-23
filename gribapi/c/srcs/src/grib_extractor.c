@@ -122,6 +122,30 @@ int create_directories(char *sPath)
   return EXIT_SUCCESS;
 }
 
+/* 
+ * extract canonical filename from path 
+ *
+*/
+char *file_from_path (char *pathname)
+{
+  char *fname = NULL;
+
+  if (pathname)
+  {
+    fname = strrchr (pathname, '/') + 1;
+
+    /* / hasn't been found so return pathname as it should be a filename */
+    if (fname == NULL)
+    {
+       fname = pathname;
+    }
+  
+  }
+
+  return fname;
+}
+
+
 static int parse_coordinates(char * strCoords,struct station_info_type *infos, int * nbCoord)
 {
   char * origCoordStr = NULL;
@@ -357,6 +381,8 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
   size_t datelen=MAX_VAL_LEN;
   char time[MAX_VAL_LEN];
   size_t timelen=MAX_VAL_LEN;
+  char step[MAX_VAL_LEN];
+  size_t steplen=MAX_VAL_LEN;
 
   size_t size=4;
   int mode=0;
@@ -382,7 +408,10 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
     GRIB_CHECK(grib_get_string(h,"date",date,&datelen),date);
   
     /* get time */
-    GRIB_CHECK(grib_get_string(h,"time",time,&timelen),date);
+    GRIB_CHECK(grib_get_string(h,"time",time,&timelen),time);
+
+    /* get stepInHours */
+    GRIB_CHECK(grib_get_string(h,"stepInHours",step,&steplen),step);
 
     /* create directory with date name if it doesn't exist */
     sprintf(tempdir,"%s/%s",directory,date);
@@ -391,8 +420,8 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
     /* Open files one per coordinate */
     for (i=0; i < nbCoords; i++)
     {
-      /* name the future file following this schema: IS26_200807202100_ECMWF91_UVTSPQZ.dat */
-      sprintf(tempfilename,"%s/%s_%s%s_%d_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,date,time,i);
+      /* name the future file following this schema: IS26_FILENAME_ECMWF91_UVTSPQZ.dat */
+      sprintf(tempfilename,"%s/%s_%s_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,file_from_path(grib_filename),i);
       fds[i] = fopen(tempfilename,"w");
       if(!fds[i])
       {
@@ -428,6 +457,9 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
          /* get time */
          GRIB_CHECK(grib_get_string(h,"time",time,&timelen),date);
          timelen = MAX_VAL_LEN;
+
+         /* get stepInHours */
+         GRIB_CHECK(grib_get_string(h,"stepInHours",step,&steplen),step);
   
          /* For each of the coordinates */
          for (j=0; j < nbCoords; j++)
@@ -442,7 +474,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
   
             GRIB_CHECK(grib_nearest_find(nearest,h,infos[j].lat,infos[j].lon,mode,nearest_lats,nearest_lons,values,distances,indexes,&size),0);
   
-            fprintf(fds[j],"date=%s, time=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",date,time,short_name,level ,nearest_lats[0],nearest_lons[0],distances[0],values[0]);
+            fprintf(fds[j],"date=%s, time=%s, step=%s, param=%s, lev=%s, lat=%.2f, lon=%.2f, distance=%g, values=%g - \n",date,time,step,short_name,level ,nearest_lats[0],nearest_lons[0],distances[0],values[0]);
           
             if (nearest)
             { 
