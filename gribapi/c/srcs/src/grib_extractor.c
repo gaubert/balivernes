@@ -442,7 +442,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
 
     /* create directory with date name if it doesn't exist */
     /* strip the directories to only keep the filename and extract the date and remove the time from the filename */
-    sprintf(tempdir,"%s/%s",directory,date_from_filename(file_from_path(grib_filename),datetime_str,true));
+    sprintf(tempdir,"%s/20%s",directory,date_from_filename(file_from_path(grib_filename),datetime_str,true));
     create_directories(tempdir);
 
     /* now get date and time from the filename */
@@ -453,7 +453,7 @@ static int read_grib(FILE* gribfile,char* directory,char * grib_filename,struct 
     for (i=0; i < nbCoords; i++)
     {
       /* name the future file following this schema: IS26_FILENAME_ECMWF91_UVTSPQZ.dat */
-      sprintf(tempfilename,"%s/%s_%s_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,datetime_str,i);
+      sprintf(tempfilename,"%s/%s_20%s_ECMWF91_UVTSPQZ.data",tempdir,infos[i].name,datetime_str,i);
       fds[i] = fopen(tempfilename,"w");
       if(!fds[i])
       {
