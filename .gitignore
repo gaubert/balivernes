@@ -1,3 +1,7 @@
 *.o
 *.class
+*.swp
 bin-groovy
+grib_extractor
+grib4perl.so
+grib_extractor-0.5.tar.gz

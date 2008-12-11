@@ -33,6 +33,10 @@ dist: clean
 	cp -R $(BASEDIR)/srcs /tmp/$(DIST)/srcs
 	tar zcvf $(DIST).tar.gz -C /tmp ./$(DIST)
 
+test-hash:
+	gcc -I$(INC) -c $(SRC)/test.c
+	gcc $(GCCOPTS)  -o test_hash test.o $(LIBS) 
+
 clean:
 	cd $(SRC); rm -f *.o; rm -f *.tar.gz ; rm -f grib_extractor;
 
