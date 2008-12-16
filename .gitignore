@@ -1,3 +1,5 @@
 *.o
 *.class
 bin-groovy
+grib_extractor
+*.tar.gz
