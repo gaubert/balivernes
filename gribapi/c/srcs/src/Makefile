@@ -20,7 +20,8 @@ all: compile install
 
 compile: 
 	gcc -I$(INC) -c $(SRC)/grib_extractor.c
-	gcc $(GCCOPTS)  -o grib_extractor grib_extractor.o $(LIBS) -lgrib_api -lm -ljasper 
+	#gcc $(GCCOPTS)  -o grib_extractor grib_extractor.o $(LIBS) -lgrib_api -lm -ljasper 
+	gcc $(GCCOPTS)  -o grib_extractor grib_extractor.o $(LIBS) -lgrib_api64 -lm  
 
 install:
 	cp $(SRC)/grib_extractor $(BIN)

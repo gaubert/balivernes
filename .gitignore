@@ -5,3 +5,5 @@ bin-groovy
 grib_extractor
 grib4perl.so
 grib_extractor-0.5.tar.gz
+libgrib_api64.a
+*.tar.gz
