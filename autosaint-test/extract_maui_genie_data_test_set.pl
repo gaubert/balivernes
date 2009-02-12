@@ -209,82 +209,74 @@ print "extract RMSMAN.GARDS_CAT_TEMPLATE\n";
 
 $ex->extract('RMSMAN.GARDS_CAT_TEMPLATE','RMSMAN.GARDS_CAT_TEMPLATE',\%TRANSHASH);
 
-=for comment
 print "\n\n------------------ Get Dynamic Data ------------------\n\n";
 
 print "extract part of IDCX.FILEPRODUCT\n";
 
-$ex->extract('IDCX.FILEPRODUCT','FILEPRODUCT',\%TRANSHASH,'select * from IDCX.FIlEPRODUCT fprod where fprod.LDDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+#$ex->extract('IDCX.FILEPRODUCT','IDCX.FILEPRODUCT',\%TRANSHASH,'select * from IDCX.FIlEPRODUCT fprod where fprod.LDDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+# get only radionuclide products
+$ex->extract('IDCX.FILEPRODUCT','IDCX.FILEPRODUCT',\%TRANSHASH,'select * from IDCX.FIlEPRODUCT fprod where fprod.typeid in (6,7,8,9,10,11,12,13,14,19,20,21,22,29,30,36) and fprod.LDDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_DATA \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_DATA','GARDS_SAMPLE_DATA',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_DATA GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_DATA','RMSAUTO.GARDS_SAMPLE_DATA',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_DATA GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_STATUS \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_STATUS','GARDS_SAMPLE_STATUS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_STATUS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_STATUS','RMSAUTO.GARDS_SAMPLE_STATUS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_STATUS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_CAT \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_CAT','GARDS_SAMPLE_CAT',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_CAT GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_CAT','RMSAUTO.GARDS_SAMPLE_CAT',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_CAT GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_AUX \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_AUX','GARDS_SAMPLE_AUX',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_AUX GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_AUX','RMSAUTO.GARDS_SAMPLE_AUX',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_AUX GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_NUCL_IDED \n";
 
-$ex->extract('RMSAUTO.GARDS_NUCL_IDED','GARDS_NUCL_IDED',\%TRANSHASH,'select * from RMSAUTO.GARDS_NUCL_IDED GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
-
-print "extract RMSAUTO.GARDS_SAMPLE_AUX \n";
-
-$ex->extract('RMSAUTO.GARDS_SAMPLE_AUX','GARDS_SAMPLE_AUX',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_AUX GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_NUCL_IDED','RMSAUTO.GARDS_NUCL_IDED',\%TRANSHASH,'select * from RMSAUTO.GARDS_NUCL_IDED GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_NUCL_LINES_IDED \n";
 
-$ex->extract('RMSAUTO.GARDS_NUCL_LINES_IDED','GARDS_NUCL_LINES_IDED',\%TRANSHASH,'select * from RMSAUTO.GARDS_NUCL_LINES_IDED GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_NUCL_LINES_IDED','RMSAUTO.GARDS_NUCL_LINES_IDED',\%TRANSHASH,'select * from RMSAUTO.GARDS_NUCL_LINES_IDED GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_PEAKS \n";
 
-$ex->extract('RMSAUTO.GARDS_PEAKS','GARDS_PEAKS',\%TRANSHASH,'select * from RMSAUTO.GARDS_PEAKS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_PEAKS','RMSAUTO.GARDS_PEAKS',\%TRANSHASH,'select * from RMSAUTO.GARDS_PEAKS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_PROC_PARAMS \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_PROC_PARAMS','GARDS_SAMPLE_PROC_PARAMS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_PROC_PARAMS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_PROC_PARAMS','RMSAUTO.GARDS_SAMPLE_PROC_PARAMS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_PROC_PARAMS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS','GARDS_SAMPLE_UPDATE_PARAMS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS','RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_UPDATE_PARAMS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_SAMPLE_FLAGS \n";
 
-$ex->extract('RMSAUTO.GARDS_SAMPLE_FLAGS','GARDS_SAMPLE_FLAGS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_FLAGS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_SAMPLE_FLAGS','RMSAUTO.GARDS_SAMPLE_FLAGS',\%TRANSHASH,'select * from RMSAUTO.GARDS_SAMPLE_FLAGS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_FLAGS \n";
 
-$ex->extract('RMSAUTO.GARDS_FLAGS','GARDS_FLAGS',\%TRANSHASH,'select * from RMSAUTO.GARDS_FLAGS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_FLAGS','RMSAUTO.GARDS_FLAGS',\%TRANSHASH,'select * from RMSAUTO.GARDS_FLAGS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_ENERGY_CAL \n";
 
-$ex->extract('RMSAUTO.GARDS_ENERGY_CAL','GARDS_ENERGY_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_ENERGY_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_ENERGY_CAL','RMSAUTO.GARDS_ENERGY_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_ENERGY_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_EFFICIENCY_CAL \n";
 
-$ex->extract('RMSAUTO.GARDS_EFFICIENCY_CAL','GARDS_EFFICIENCY_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_EFFICIENCY_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_EFFICIENCY_CAL','RMSAUTO.GARDS_EFFICIENCY_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_EFFICIENCY_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
 print "extract RMSAUTO.GARDS_RESOLUTION_CAL \n";
 
-$ex->extract('RMSAUTO.GARDS_RESOLUTION_CAL','GARDS_RESOLUTION_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_RESOLUTION_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+$ex->extract('RMSAUTO.GARDS_RESOLUTION_CAL','RMSAUTO.GARDS_RESOLUTION_CAL',\%TRANSHASH,'select * from RMSAUTO.GARDS_RESOLUTION_CAL GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
-print "extract RMSAUTO.GARDS_SOH_NUM_DATA \n";
+#print "extract RMSAUTO.GARDS_SOH_NUM_DATA \n";
 
-$ex->extract('RMSAUTO.GARDS_SOH_NUM_DATA','GARDS_SOH_NUM_DATA',\%TRANSHASH,'select * from RMSAUTO.GARDS_SOH_NUM_DATA GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
+#$ex->extract('RMSAUTO.GARDS_SOH_NUM_DATA','RMSAUTO.GARDS_SOH_NUM_DATA',\%TRANSHASH,'select * from RMSAUTO.GARDS_SOH_NUM_DATA GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
 
-print "extract RMSAUTO.GARDS_PRODUCTS \n";
-
-$ex->extract('RMSAUTO.GARDS_PRODUCTS','GARDS_PRODUCTS',\%TRANSHASH,'select * from RMSAUTO.GARDS_PRODUCTS GSD where GSD.MODDATE between to_date(?,\'YYYY-MM-DD HH24:MI:SS\') and to_date(?,\'YYYY-MM-DD HH24:MI:SS\')',$BEGIN,$END);
-
-=cut
 
 $ex->disconnect();
 }
