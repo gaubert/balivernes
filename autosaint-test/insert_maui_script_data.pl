@@ -20,7 +20,8 @@ my $SAMPLEDIR       = undef;
 my $SAMPLEID        = undef;
 my $USER            = 'SYSTEM';
 my $PASS            = 'oracle';
-my $DB              = '172.27.66.122';
+#my $DB              = '172.27.66.144';
+my $DB              = 'localhost:10521';
 
 #
 #  Parse command line arguments. Overide global values 
